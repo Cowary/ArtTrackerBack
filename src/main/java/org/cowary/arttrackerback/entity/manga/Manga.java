@@ -7,7 +7,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.cowary.arttrackerback.util.DateUtil;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 
 @Getter

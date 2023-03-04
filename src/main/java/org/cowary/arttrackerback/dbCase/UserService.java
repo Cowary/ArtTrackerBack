@@ -7,13 +7,9 @@ import org.cowary.arttrackerback.repo.user.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 @Service
 public class UserService {
-    @PersistenceContext
-    private EntityManager em;
+
     final UserRepo userRepo;
     final RoleRepo roleRepo;
 
