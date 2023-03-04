@@ -4,10 +4,7 @@ import org.cowary.arttrackerback.dbCase.anime.AnimeCrud;
 import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.rest.FindImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,16 +15,15 @@ public class GetAnimeController implements FindImpl<Anime> {
     @Autowired
     AnimeCrud animeCrud;
 
-    // TODO: 04.03.2023 Переделать
-    @GetMapping("/animes")
+    @GetMapping("/anime")
     @Override
-    public List<Anime> findByUsrId(@RequestParam long userId) {
+    public List<Anime> findByUsrId(@RequestHeader long userId) {
         return animeCrud.getAll(userId);
     }
 
     @Override
-    @GetMapping("/anime")
-    public Anime findTitle(@RequestParam long userId, @RequestParam long titleId) {
+    @GetMapping("/anime/{titleId}")
+    public Anime findTitle(@RequestHeader long userId, @PathVariable long titleId) {
         return animeCrud.getById(titleId);
     }
 }
