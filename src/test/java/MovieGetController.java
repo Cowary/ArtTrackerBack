@@ -11,24 +11,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
-public class AnimeControllerTest {
+public class MovieGetController {
 
     @Autowired
-    @SuppressWarnings("unused")
     private MockMvc mockMvc;
 
     @Test
-    public void testListOfAnime() throws Exception {
-        mockMvc.perform(get("/api/anime")
-                        .header("userId", 50))
+    public void testGetAll() throws Exception {
+        mockMvc.perform(get("/title/movie")
+                        .header("userId", 3))
                 .andExpect(status().isOk())
                 .andExpect(header().stringValues("Content-Type", "application/json"));
     }
 
     @Test
-    public void testAnime() throws Exception {
-        mockMvc.perform(get("/api/anime/50")
-                        .header("userId", 50))
+    public void testGetOne() throws Exception {
+        mockMvc.perform(get("/title/movie/45"))
                 .andExpect(status().isOk())
                 .andExpect(header().stringValues("Content-Type", "application/json"));
     }

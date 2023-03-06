@@ -2,10 +2,10 @@ package org.cowary.arttrackerback.dbCase.manga;
 
 import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.manga.Manga;
+import org.cowary.arttrackerback.repo.manga.MangaRepo;
+import org.cowary.arttrackerback.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.cowary.arttrackerback.repo.manga.MangaRep;
-import org.cowary.arttrackerback.util.DateUtil;
 
 import java.util.List;
 
@@ -13,19 +13,27 @@ import java.util.List;
 public class MangaCrud {
 
     @Autowired
-    MangaRep mangaRep;
+    MangaRepo mangaRepo;
     @Autowired
     UserService userService;
 
-    public List<Manga> getAll(String status) {
+    public List<Manga> findAll(String status) {
         long userId = userService.getIdCurrentUser();
-        if(status.equals("")) return mangaRep.findAllByUsrId(userId);
-        else return mangaRep.findAllByStatus(status);
+        if(status.equals("")) return mangaRepo.findAllByUsrId(userId);
+        else return mangaRepo.findAllByStatus(status);
+    }
+
+    public List<Manga> findAllByUserId(long userId) {
+        return mangaRepo.findAllByUsrId(userId);
+    }
+
+    public Manga findByUserId(long userId) {
+        return mangaRepo.findByUsrId(userId);
     }
 
     public void save(Manga manga) {
         manga.setLastUpd(DateUtil.now());
         manga.setUsrId(userService.getIdCurrentUser());
-        mangaRep.save(manga);
+        mangaRepo.save(manga);
     }
 }

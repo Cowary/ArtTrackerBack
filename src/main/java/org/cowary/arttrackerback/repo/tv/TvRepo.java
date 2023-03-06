@@ -12,5 +12,6 @@ public interface TvRepo extends CrudRepository<Tv, Long> {
     Optional<Tv> findById(Long id);
     Optional<Tv> findByOriginalTitle(String originalTitle);
     List<Tv> findByStatus(String status);
+    List<Tv> findAllByUsrId(Long usrId);
 
 }

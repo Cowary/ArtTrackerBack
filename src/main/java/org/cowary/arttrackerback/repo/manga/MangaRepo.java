@@ -5,8 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface MangaRep extends CrudRepository<Manga, Long> {
+public interface MangaRepo extends CrudRepository<Manga, Long> {
     List<Manga> findAll();
-    List<Manga> findAllByUsrId(Long usrId);
+    List<Manga> findAllByUsrId(long usrId);
     List<Manga> findAllByStatus(String status);
+    Manga findByUsrId(long usrId);
 }

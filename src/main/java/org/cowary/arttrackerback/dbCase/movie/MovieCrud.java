@@ -17,10 +17,15 @@ public class MovieCrud {
     @Autowired
     UserService userService;
 
+    @Deprecated
     public List<Movie> getAll(String status) {
         long userId = userService.getIdCurrentUser();
         if(status.equals("")) return movieRepo.findAllByUsrId(userId);
         else return movieRepo.findByStatus(status);
+    }
+
+    public List<Movie> getAllByUserId(long userId) {
+        return movieRepo.findAllByUsrId(userId);
     }
 
     public Movie findById(long id) {

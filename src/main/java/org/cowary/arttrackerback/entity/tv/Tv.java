@@ -35,6 +35,7 @@ public class Tv extends Media {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date lastUpd;
+    private Long usrId;
     @Transient
     private String type = "Tv";
 

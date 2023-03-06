@@ -2,10 +2,10 @@ package org.cowary.arttrackerback.dbCase.game;
 
 import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.game.Game;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.cowary.arttrackerback.repo.game.GameRepo;
 import org.cowary.arttrackerback.util.DateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -21,6 +21,10 @@ public class GameCrud {
         long userId = userService.getIdCurrentUser();
         if(status.equals("")) return gameRepo.findAllByUsrId(userId);
         else return gameRepo.findByStatus(status);
+    }
+
+    public List<Game> getAllByUserId(long userId) {
+        return gameRepo.findAllByUsrId(userId);
     }
 
     public Game findById(long id) {

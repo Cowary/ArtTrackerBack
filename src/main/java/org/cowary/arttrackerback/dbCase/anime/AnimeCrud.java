@@ -18,14 +18,14 @@ public class AnimeCrud {
     UserService userService;
 
     @Deprecated
-    public List<Anime> getAll(String status) {
+    public List<Anime> getAllByUserId(String status) {
         long userId = userService.getIdCurrentUser();
         if(status.equals("")) return animeRepo.findAllByUsrId(userId);
         else return animeRepo.findByStatusAndUsrId(status, userId);
     }
 
 
-    public List<Anime> getAll(long userId) {
+    public List<Anime> getAllByUserId(long userId) {
         return animeRepo.findAllByUsrId(userId);
     }
 

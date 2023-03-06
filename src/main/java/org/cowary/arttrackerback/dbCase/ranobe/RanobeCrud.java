@@ -2,10 +2,10 @@ package org.cowary.arttrackerback.dbCase.ranobe;
 
 import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.cowary.arttrackerback.repo.ranobe.RanobeRep;
 import org.cowary.arttrackerback.util.DateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -20,6 +20,10 @@ public class RanobeCrud {
     public List<Ranobe> getAll(String status) {
         if(status.equals("")) return ranobeRep.findAll();
         else return ranobeRep.findAllByStatus(status);
+    }
+
+    public List<Ranobe> getAllByUserId(long userId) {
+        return ranobeRep.findAllByUsrId(userId);
     }
 
     public void save(Ranobe ranobe) {

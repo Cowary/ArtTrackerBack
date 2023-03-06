@@ -22,6 +22,10 @@ public class TvCrud {
         else return tvRepo.findByStatus(status);
     }
 
+    public List<Tv> getAllByUserId(long userId) {
+        return tvRepo.findAllByUsrId(userId);
+    }
+
     public Tv findById(long id) {
         return tvRepo.findById(id).orElseThrow();
     }
