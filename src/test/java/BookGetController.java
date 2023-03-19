@@ -24,9 +24,9 @@ public class BookGetController {
                 .andExpect(header().stringValues("Content-Type", "application/json"));
     }
 
+    @Test
     public void testGetOne() throws Exception {
-        mockMvc.perform(get("/title/anime/50")
-                        .header("userId", 50))
+        mockMvc.perform(get("/title/book/3"))
                 .andExpect(status().isOk())
                 .andExpect(header().stringValues("Content-Type", "application/json"));
     }
