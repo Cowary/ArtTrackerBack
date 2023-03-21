@@ -2,21 +2,26 @@ package org.cowary.arttrackerback.dbCase;
 
 
 import org.cowary.arttrackerback.entity.User;
-import org.cowary.arttrackerback.repo.user.RoleRepo;
 import org.cowary.arttrackerback.repo.user.UserRepo;
+import org.cowary.arttrackerback.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService {
-
-    final UserRepo userRepo;
-    final RoleRepo roleRepo;
-
+public class UserService implements UserDetailsService {
     @Autowired
-    public UserService(UserRepo userRepo, RoleRepo roleRepo) {
-        this.userRepo = userRepo;
-        this.roleRepo = roleRepo;
+    UserRepo userRepo;
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepo.findByUsername(username);
+
+        return UserDetailsImpl.build(user);
     }
 
     public Long getIdCurrentUser() {
@@ -36,4 +41,5 @@ public class UserService {
     public User getCurrentUser() {
         return userRepo.findByUsername(getName());
     }
+
 }

@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,6 +18,7 @@ public class BookGetController {
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "ruderu")
     public void testGetAll() throws Exception {
         mockMvc.perform(get("/title/book")
                         .header("userId", 3))
@@ -25,6 +27,7 @@ public class BookGetController {
     }
 
     @Test
+    @WithMockUser(username = "ruderu")
     public void testGetOne() throws Exception {
         mockMvc.perform(get("/title/book/3"))
                 .andExpect(status().isOk())
