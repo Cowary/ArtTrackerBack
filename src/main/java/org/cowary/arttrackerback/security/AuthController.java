@@ -31,8 +31,8 @@ public class AuthController {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 //        List<String> roles = userDetails.getAuthorities().stream()
-//                .map(item -> item.getAuthority())
-//                .collect(Collectors.toList());
+//                .map(GrantedAuthority::getAuthority)
+//                .toList();
         return ResponseEntity.ok(new AuthenticationResp(jwt));
     }
 
