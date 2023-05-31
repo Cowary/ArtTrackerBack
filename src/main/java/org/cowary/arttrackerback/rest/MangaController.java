@@ -1,8 +1,7 @@
-package org.cowary.arttrackerback.rest.anime;
+package org.cowary.arttrackerback.rest;
 
 import org.cowary.arttrackerback.dbCase.manga.MangaCrud;
 import org.cowary.arttrackerback.entity.manga.Manga;
-import org.cowary.arttrackerback.rest.GetTitleImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class MangaGetController implements GetTitleImpl<Manga> {
+public class MangaController implements TitleImpl<Manga> {
 
     @Autowired
     private MangaCrud mangaCrud;
@@ -25,5 +24,20 @@ public class MangaGetController implements GetTitleImpl<Manga> {
     @GetMapping("/manga/{titleId}")
     public Manga getTitle(@PathVariable long titleId) {
         return mangaCrud.findByUserId(titleId);
+    }
+
+    @Override
+    public Manga postTitle(Manga title) {
+        return null;
+    }
+
+    @Override
+    public Manga putTitle(Manga title) {
+        return null;
+    }
+
+    @Override
+    public Manga deleteTitle(Manga title) {
+        return null;
     }
 }
