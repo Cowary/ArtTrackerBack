@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeCrud;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,17 +28,17 @@ public class RanobeController implements TitleImpl<Ranobe> {
     }
 
     @Override
-    public Ranobe postTitle(Ranobe title) {
+    public ResponseEntity<Ranobe> postTitle(Ranobe title) {
         return null;
     }
 
     @Override
-    public Ranobe putTitle(Ranobe title) {
+    public ResponseEntity<Ranobe> putTitle(Ranobe title) {
         return null;
     }
 
     @Override
-    public Ranobe deleteTitle(Ranobe title) {
+    public ResponseEntity<String> deleteTitle(long id) {
         return null;
     }
 }

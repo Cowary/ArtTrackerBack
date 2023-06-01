@@ -1,12 +1,18 @@
 package org.cowary.arttrackerback.rest;
 
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 public interface TitleImpl<T> {
 
-    public List<T> getAllByUsrId(long userId);
-    public T getTitle(long titleId);
-    public T postTitle(T title);
-    public T putTitle(T title);
-    public T deleteTitle(T title);
+    List<T> getAllByUsrId(long userId);
+
+    T getTitle(long titleId);
+
+    ResponseEntity<T> postTitle(T title);
+
+    ResponseEntity<T> putTitle(T title);
+
+    ResponseEntity<String> deleteTitle(long id);
 }

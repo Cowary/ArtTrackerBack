@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import org.cowary.arttrackerback.dbCase.movie.MovieCrud;
 import org.cowary.arttrackerback.entity.movie.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,17 +28,17 @@ public class MovieController implements TitleImpl<Movie> {
     }
 
     @Override
-    public Movie postTitle(Movie title) {
+    public ResponseEntity<Movie> postTitle(Movie title) {
         return null;
     }
 
     @Override
-    public Movie putTitle(Movie title) {
+    public ResponseEntity<Movie> putTitle(Movie title) {
         return null;
     }
 
     @Override
-    public Movie deleteTitle(Movie title) {
+    public ResponseEntity<String> deleteTitle(long id) {
         return null;
     }
 }

@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import org.cowary.arttrackerback.dbCase.tv.TvCrud;
 import org.cowary.arttrackerback.entity.tv.Tv;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,17 +28,17 @@ public class TvController implements TitleImpl<Tv> {
     }
 
     @Override
-    public Tv postTitle(Tv title) {
+    public ResponseEntity<Tv> postTitle(Tv title) {
         return null;
     }
 
     @Override
-    public Tv putTitle(Tv title) {
+    public ResponseEntity<Tv> putTitle(Tv title) {
         return null;
     }
 
     @Override
-    public Tv deleteTitle(Tv title) {
+    public ResponseEntity<String> deleteTitle(long id) {
         return null;
     }
 }

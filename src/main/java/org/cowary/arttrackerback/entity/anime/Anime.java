@@ -1,13 +1,13 @@
 package org.cowary.arttrackerback.entity.anime;
 
-import org.cowary.arttrackerback.entity.Media;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.cowary.arttrackerback.entity.Media;
 import org.cowary.arttrackerback.util.DateUtil;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.*;
 import java.util.Date;
 
 @Getter

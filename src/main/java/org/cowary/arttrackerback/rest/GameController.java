@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import org.cowary.arttrackerback.dbCase.game.GameCrud;
 import org.cowary.arttrackerback.entity.game.Game;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,17 +28,17 @@ public class GameController implements TitleImpl<Game> {
     }
 
     @Override
-    public Game postTitle(Game title) {
+    public ResponseEntity<Game> postTitle(Game title) {
         return null;
     }
 
     @Override
-    public Game putTitle(Game title) {
+    public ResponseEntity<Game> putTitle(Game title) {
         return null;
     }
 
     @Override
-    public Game deleteTitle(Game title) {
+    public ResponseEntity<String> deleteTitle(long id) {
         return null;
     }
 }
