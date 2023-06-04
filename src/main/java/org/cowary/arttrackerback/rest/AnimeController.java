@@ -51,4 +51,6 @@ public class AnimeController implements TitleImpl<Anime> {
         animeCrud.deleteById(id);
         return ResponseEntity.ok(String.format("anime №%s deleted", id));
     }
+
+
 }

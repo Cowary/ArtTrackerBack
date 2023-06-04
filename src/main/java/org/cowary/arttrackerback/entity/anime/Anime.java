@@ -1,6 +1,7 @@
 package org.cowary.arttrackerback.entity.anime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,9 +21,12 @@ public class Anime extends Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String originalTitle;
+    @NotBlank
     private String title;
     private Integer episodes;
+    @NotBlank
     private String status;
     private Integer score;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
