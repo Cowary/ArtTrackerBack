@@ -1,6 +1,8 @@
 package org.cowary.arttrackerback.dbCase.book;
 
+import org.cowary.arttrackerback.dbCase.MediaCrud;
 import org.cowary.arttrackerback.dbCase.UserService;
+import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.book.Book;
 import org.cowary.arttrackerback.repo.book.BookRepo;
 import org.cowary.arttrackerback.util.DateUtil;
@@ -10,18 +12,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class BookCrud {
+public class BookCrud implements MediaCrud<Book> {
 
     @Autowired
     BookRepo bookRepo;
     @Autowired
     UserService userService;
 
-    public List<Book> getAll(String status) {
-        long userId = userService.getIdCurrentUser();
-        if(status.equals("")) return bookRepo.findAllByUsrId(userId);
-        else return bookRepo.findByStatus(status);
-    }
 
     public List<Book> getAllByUserId(long userId) {
         return bookRepo.findAllByUsrId(userId);
@@ -39,5 +36,11 @@ public class BookCrud {
 
     public void delete(Book book) {
         bookRepo.delete(book);
+    }
+
+    @Override
+    public List<Book> getAll(long userId, String status) {
+        if(status.equals("")) return bookRepo.findAllByUsrId(userId);
+        else return bookRepo.findByStatus(status);
     }
 }

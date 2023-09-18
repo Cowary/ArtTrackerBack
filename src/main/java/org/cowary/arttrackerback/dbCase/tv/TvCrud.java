@@ -1,6 +1,8 @@
 package org.cowary.arttrackerback.dbCase.tv;
 
+import org.cowary.arttrackerback.dbCase.MediaCrud;
 import org.cowary.arttrackerback.dbCase.UserService;
+import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.tv.Tv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,17 +12,12 @@ import org.cowary.arttrackerback.util.DateUtil;
 import java.util.List;
 
 @Component
-public class TvCrud {
+public class TvCrud  {
 
     @Autowired
     TvRepo tvRepo;
     @Autowired
     UserService userService;
-
-    public List<Tv> getAll(String status) {
-        if(status.equals("")) return tvRepo.findAll();
-        else return tvRepo.findByStatus(status);
-    }
 
     public List<Tv> getAllByUserId(long userId) {
         return tvRepo.findAllByUsrId(userId);
@@ -42,4 +39,5 @@ public class TvCrud {
     public void delete(Tv tv) {
         tvRepo.delete(tv);
     }
+
 }

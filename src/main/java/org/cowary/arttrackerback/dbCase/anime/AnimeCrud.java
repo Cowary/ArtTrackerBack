@@ -1,5 +1,6 @@
 package org.cowary.arttrackerback.dbCase.anime;
 
+import org.cowary.arttrackerback.dbCase.MediaCrud;
 import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.anime.Anime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +11,12 @@ import org.cowary.arttrackerback.util.DateUtil;
 import java.util.List;
 
 @Component
-public class AnimeCrud {
+public class AnimeCrud implements MediaCrud<Anime> {
 
     @Autowired
     AnimeRepo animeRepo;
     @Autowired
     UserService userService;
-
-    @Deprecated
-    public List<Anime> getAllByUserId(String status) {
-        long userId = userService.getIdCurrentUser();
-        if(status.equals("")) return animeRepo.findAllByUsrId(userId);
-        else return animeRepo.findByStatusAndUsrId(status, userId);
-    }
 
 
     public List<Anime> getAllByUserId(long userId) {
@@ -45,5 +39,11 @@ public class AnimeCrud {
 
     public void deleteById(long id) {
         animeRepo.deleteById(id);
+    }
+
+    @Override
+    public List<Anime> getAll(long userId, String status) {
+        if(status.equals("")) return animeRepo.findAllByUsrId(userId);
+        else return animeRepo.findByStatusAndUsrId(status, userId);
     }
 }

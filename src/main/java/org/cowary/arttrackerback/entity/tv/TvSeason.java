@@ -32,7 +32,6 @@ public class TvSeason extends Media {
     private Date lastUpd;
     private Long tvId;
     private Long usrId;
-
     @Transient
     private String originalTitle;
     @Transient
@@ -46,7 +45,7 @@ public class TvSeason extends Media {
     @Transient
     private Integer seasonsEnd;
     @Transient
-    private static final String type = "Tv";
+    private String type = "Tv";
 
     public void setCommonField(Tv tv) {
         originalTitle = tv.getOriginalTitle();
