@@ -5,6 +5,7 @@ import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.movie.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.cowary.arttrackerback.repo.movie.MovieRepo;
 import org.cowary.arttrackerback.util.DateUtil;
@@ -41,5 +42,9 @@ public class MovieCrud implements MediaCrud<Movie> {
     public List<Movie> getAll(long userId, String status) {
         if(status.equals("")) return movieRepo.findAllByUsrId(userId);
         else return movieRepo.findByStatus(status);
+    }
+
+    public void deleteById(long id) {
+        movieRepo.deleteById(id);
     }
 }

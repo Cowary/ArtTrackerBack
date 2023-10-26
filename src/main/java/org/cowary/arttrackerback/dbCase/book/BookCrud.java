@@ -43,4 +43,8 @@ public class BookCrud implements MediaCrud<Book> {
         if(status.equals("")) return bookRepo.findAllByUsrId(userId);
         else return bookRepo.findByStatus(status);
     }
+
+    public void deleteById(long id) {
+        bookRepo.deleteById(id);
+    }
 }

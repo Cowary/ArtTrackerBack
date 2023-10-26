@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import org.cowary.arttrackerback.dbCase.book.BookCrud;
 import org.cowary.arttrackerback.entity.book.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,35 +11,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class BookController implements TitleImpl<Book> {
+public class BookController implements TitleInterface<Book> {
 
     @Autowired
     BookCrud bookCrud;
 
     @Override
     @GetMapping("/book")
-    public List<Book> getAllByUsrId(@RequestHeader long userId) {
-        return bookCrud.getAllByUserId(userId);
+    public ResponseEntity<List<Book>> getAllByUsrId(@RequestHeader long userId) {
+        return ResponseEntity.ok(
+                bookCrud.getAllByUserId(userId)
+        );
     }
 
     @Override
     @GetMapping("/book/{titleId}")
-    public Book getTitle(@PathVariable long titleId) {
-        return bookCrud.findById(titleId);
+    public ResponseEntity<Book> getTitle(@PathVariable long titleId) {
+        return ResponseEntity.ok(
+                bookCrud.findById(titleId)
+        );
     }
 
     @Override
     public ResponseEntity<Book> postTitle(Book title) {
-        return null;
+        bookCrud.save(title);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(title);
     }
 
     @Override
     public ResponseEntity<Book> putTitle(Book title) {
-        return null;
+        bookCrud.save(title);
+        return ResponseEntity.ok(title);
     }
 
     @Override
     public ResponseEntity<String> deleteTitle(long id) {
-        return null;
+        bookCrud.deleteById(id);
+        return ResponseEntity.ok(String.format("book №%s deleted", id));
     }
 }

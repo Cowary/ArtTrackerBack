@@ -43,4 +43,8 @@ public class GameCrud implements MediaCrud<Game> {
         if(status.equals("")) return gameRepo.findAllByUsrId(userId);
         else return gameRepo.findByStatus(status);
     }
+
+    public void deleteById(long id) {
+        gameRepo.deleteById(id);
+    }
 }
