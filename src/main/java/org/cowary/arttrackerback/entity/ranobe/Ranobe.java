@@ -1,13 +1,13 @@
 package org.cowary.arttrackerback.entity.ranobe;
 
-import org.cowary.arttrackerback.entity.Media;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.cowary.arttrackerback.entity.Media;
 import org.cowary.arttrackerback.util.DateUtil;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.*;
 import java.util.Date;
 
 @Getter
@@ -41,7 +41,7 @@ public class Ranobe extends Media {
     private Date lastUpd;
     private Long usrId;
     @Transient
-    private static final String type = "Ranobe";
+    private final String type = "Ranobe";
 
     public Ranobe(String originalTitle, String title, Integer volumes, Integer chapters, Date releaseDate, Long shikiId) {
         this.originalTitle = originalTitle;
