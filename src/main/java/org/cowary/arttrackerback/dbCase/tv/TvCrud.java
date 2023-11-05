@@ -40,4 +40,7 @@ public class TvCrud  {
         tvRepo.delete(tv);
     }
 
+    public void deleteById(long id) {
+        tvRepo.deleteById(id);
+    }
 }

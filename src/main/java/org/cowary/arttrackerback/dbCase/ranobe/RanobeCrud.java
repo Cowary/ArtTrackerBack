@@ -37,4 +37,7 @@ public class RanobeCrud  {
         return ranobeRep.findRanobeByOriginalTitleAndUsrId(originalTitle, userService.getIdCurrentUser());
     }
 
+    public void deleteById(long id) {
+        ranobeRep.deleteById(id);
+    }
 }

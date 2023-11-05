@@ -4,11 +4,11 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface TitleImpl<T> {
+public interface TitleInterface<T> {
 
-    List<T> getAllByUsrId(long userId);
+    ResponseEntity<List<T>> getAllByUsrId(long userId);
 
-    T getTitle(long titleId);
+    ResponseEntity<T> getTitle(long titleId);
 
     ResponseEntity<T> postTitle(T title);
 

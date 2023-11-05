@@ -12,21 +12,25 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class AnimeController implements TitleImpl<Anime> {
+public class AnimeController implements TitleInterface<Anime> {
 
     @Autowired
     AnimeCrud animeCrud;
 
     @Override
     @GetMapping("/anime")
-    public List<Anime> getAllByUsrId(@RequestHeader long userId) {
-        return animeCrud.getAllByUserId(userId);
+    public ResponseEntity<List<Anime>> getAllByUsrId(@RequestHeader long userId) {
+        return ResponseEntity.ok(
+                animeCrud.getAllByUserId(userId)
+        );
     }
 
     @Override
     @GetMapping("/anime/{titleId}")
-    public Anime getTitle(@PathVariable long titleId) {
-        return animeCrud.getById(titleId);
+    public ResponseEntity<Anime> getTitle(@PathVariable long titleId) {
+        return ResponseEntity.ok(
+                animeCrud.getById(titleId)
+        );
     }
 
     @Override

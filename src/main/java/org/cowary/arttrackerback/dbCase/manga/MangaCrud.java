@@ -44,4 +44,8 @@ public class MangaCrud implements MediaCrud<Manga> {
         if(status.equals("")) return mangaRepo.findAllByUsrId(userId);
         else return mangaRepo.findAllByStatus(status);
     }
+
+    public void deleteById(long id) {
+        mangaRepo.deleteById(id);
+    }
 }
