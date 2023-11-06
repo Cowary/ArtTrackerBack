@@ -41,7 +41,7 @@ public class Ranobe extends Media {
     private Date lastUpd;
     private Long usrId;
     @Transient
-    private final String type = "Ranobe";
+    private String type = "Ranobe";
 
     public Ranobe(String originalTitle, String title, Integer volumes, Integer chapters, Date releaseDate, Long shikiId) {
         this.originalTitle = originalTitle;

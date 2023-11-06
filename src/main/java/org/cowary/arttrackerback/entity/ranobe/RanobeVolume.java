@@ -45,7 +45,7 @@ public class RanobeVolume extends Media {
     @Transient
     private Integer volumesEnd;
     @Transient
-    private static final String type = "Ranobe";
+    private String type = "Ranobe";
 
     public void setCommonField(Ranobe ranobe) {
         originalTitle = ranobe.getOriginalTitle();
