@@ -3,16 +3,22 @@ package org.cowary.arttrackerback.rest;
 import jakarta.validation.Valid;
 import org.cowary.arttrackerback.dbCase.anime.AnimeCrud;
 import org.cowary.arttrackerback.entity.anime.Anime;
+import org.cowary.arttrackerback.entity.findRs.FindMediaRs;
+import org.cowary.arttrackerback.entity.findRs.Finds;
+import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
+import org.cowary.arttrackerback.integration.model.shiki.AnimeModel;
+import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class AnimeController implements TitleInterface<Anime> {
+public class AnimeController implements TitleInterface<Anime>, FindController {
 
     @Autowired
     AnimeCrud animeCrud;
@@ -56,5 +62,15 @@ public class AnimeController implements TitleInterface<Anime> {
         return ResponseEntity.ok(String.format("anime №%s deleted", id));
     }
 
-
+    @Override
+    @GetMapping("/anime/find")
+    public ResponseEntity<FindMediaRs> find(@RequestParam String keyword) {
+        var animeModelList = ShikimoriApi.animeApi().searchByName(keyword);
+        List<Finds> findsList = new ArrayList<>();
+        for (AnimeModel animeModel : animeModelList) {
+            var fins = new Finds(animeModel.getName(), animeModel.getRussian(), animeModel.getScore(), animeModel.getEpisodes(), DateFormat.HTMLshort.parse(animeModel.getAired_on()).getYear(), animeModel.getId());
+            findsList.add(fins);
+        }
+        return ResponseEntity.ok(new FindMediaRs(findsList));
+    }
 }

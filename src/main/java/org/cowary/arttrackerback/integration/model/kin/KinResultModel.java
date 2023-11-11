@@ -14,5 +14,5 @@ public class KinResultModel {
     private String nameEn;
     private String type;
     private String year;
-    private Double rating;
+    private String rating;
 }

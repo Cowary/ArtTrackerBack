@@ -1,9 +1,7 @@
 package org.cowary.arttrackerback.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public enum DateFormat {
     ddMMyyyy("dd.MM.yyyy"),
@@ -17,33 +15,29 @@ public enum DateFormat {
     public static final String HTMLshort_PATTER = "yyyy-MM-dd";
 
     private final String pattern;
-    private final ThreadLocal<SimpleDateFormat> format;
+    private final ThreadLocal<DateTimeFormatter> format;
 
 
     DateFormat(String pattern) {
         this.pattern = pattern;
-        this.format = ThreadLocal.withInitial(() -> new SimpleDateFormat(pattern));
+        this.format = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern(pattern));
     }
 
-    public Date parse(String str) {
-        try {
-            return format.get().parse(str);
-        } catch (ParseException e) {
-            throw new IllegalArgumentException(str + " does not conform to " + pattern);
-        }
+    public LocalDate parse(String str) {
+        return LocalDate.parse(str, format.get());
     }
 
-    public String format(Date date) {
-        return format.get().format(date);
-    }
+//    public String format(Date date) {
+//        return format.get().format(date);
+//    }
 
-    public String formatNow() {
-        return format.get().format(DateUtil.now());
-    }
-
-    public String formatThen(int diff, TimeUnit unit) {
-        return format(DateUtil.then(diff, unit));
-    }
+//    public String formatNow() {
+//        return format.get().format(DateUtil.now());
+//    }
+//
+//    public String formatThen(int diff, TimeUnit unit) {
+//        return format(DateUtil.then(diff, unit));
+//    }
 }
 
 

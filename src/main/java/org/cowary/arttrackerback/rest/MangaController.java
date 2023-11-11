@@ -1,17 +1,23 @@
 package org.cowary.arttrackerback.rest;
 
 import org.cowary.arttrackerback.dbCase.manga.MangaCrud;
+import org.cowary.arttrackerback.entity.findRs.FindMediaRs;
+import org.cowary.arttrackerback.entity.findRs.Finds;
 import org.cowary.arttrackerback.entity.manga.Manga;
+import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
+import org.cowary.arttrackerback.integration.model.shiki.MangaModel;
+import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class MangaController implements TitleInterface<Manga> {
+public class MangaController implements TitleInterface<Manga>, FindController {
 
     @Autowired
     private MangaCrud mangaCrud;
@@ -50,5 +56,17 @@ public class MangaController implements TitleInterface<Manga> {
     public ResponseEntity<String> deleteTitle(long id) {
         mangaCrud.deleteById(id);
         return ResponseEntity.ok(String.format("Manga №%s deleted", id));
+    }
+
+    @Override
+    @GetMapping("/manga/find")
+    public ResponseEntity<FindMediaRs> find(String keyword) {
+        var mediaModelList = ShikimoriApi.mangaApi().searchByName(keyword);
+        List<Finds> findsList = new ArrayList<>();
+        for (MangaModel mangaModel : mediaModelList) {
+            var fins = new Finds(mangaModel.getName(), mangaModel.getRussian(), mangaModel.getScore(), mangaModel.getChapters(), DateFormat.HTMLshort.parse(mangaModel.getAired_on()).getYear(), mangaModel.getId());
+            findsList.add(fins);
+        }
+        return ResponseEntity.ok(new FindMediaRs(findsList));
     }
 }

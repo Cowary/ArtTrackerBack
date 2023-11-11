@@ -33,7 +33,11 @@ public class AuthController {
 //        List<String> roles = userDetails.getAuthorities().stream()
 //                .map(GrantedAuthority::getAuthority)
 //                .toList();
-        return ResponseEntity.ok(new AuthenticationResp(jwt));
+        System.out.println("userDetails");
+        System.out.println(userDetails);
+        System.out.println("!!!");
+        System.out.println(userDetails.getId());
+        return ResponseEntity.ok(new AuthenticationResp(jwt, userDetails.getId()));
     }
 
 }
