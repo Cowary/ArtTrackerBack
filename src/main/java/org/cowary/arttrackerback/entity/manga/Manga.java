@@ -1,14 +1,14 @@
 package org.cowary.arttrackerback.entity.manga;
 
-import org.cowary.arttrackerback.entity.Media;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.cowary.arttrackerback.entity.Media;
 import org.cowary.arttrackerback.util.DateUtil;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -27,22 +27,22 @@ public class Manga extends Media {
     private Integer score;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    private Date releaseDate;
+    private LocalDate releaseDate;
     private Integer releaseYear;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    private Date endDate;
+    private LocalDate endDate;
     private Long shikiId;
     private Integer volumesEnd;
     private Integer chaptersEnd;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    private Date lastUpd;
+    private LocalDate lastUpd;
     private Long usrId;
     @Transient
     private String type = "Manga";
 
-    public Manga(String originalTitle, String title, Integer volumes, Integer chapters, Date releaseDate, Long shikiId) {
+    public Manga(String originalTitle, String title, Integer volumes, Integer chapters, LocalDate releaseDate, Long shikiId) {
         this.originalTitle = originalTitle;
         this.title = title;
         this.volumes = volumes;

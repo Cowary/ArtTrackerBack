@@ -68,4 +68,9 @@ public class RanobeController implements TitleInterface<Ranobe>, FindController 
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));
     }
+
+    @Override
+    public ResponseEntity getByIntegrationID(int id) {
+        return null;
+    }
 }

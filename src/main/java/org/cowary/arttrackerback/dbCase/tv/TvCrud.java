@@ -1,14 +1,12 @@
 package org.cowary.arttrackerback.dbCase.tv;
 
-import org.cowary.arttrackerback.dbCase.MediaCrud;
 import org.cowary.arttrackerback.dbCase.UserService;
-import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.tv.Tv;
+import org.cowary.arttrackerback.repo.tv.TvRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.cowary.arttrackerback.repo.tv.TvRepo;
-import org.cowary.arttrackerback.util.DateUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -32,7 +30,7 @@ public class TvCrud  {
     }
 
     public void save(Tv tv) {
-        tv.setLastUpd(DateUtil.now());
+        tv.setLastUpd(LocalDate.now());
         tvRepo.save(tv);
     }
 

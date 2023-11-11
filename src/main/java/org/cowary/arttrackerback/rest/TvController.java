@@ -67,4 +67,9 @@ public class TvController implements TitleInterface<Tv>, FindController {
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));
     }
+
+    @Override
+    public ResponseEntity getByIntegrationID(int id) {
+        return null;
+    }
 }

@@ -1,13 +1,13 @@
 package org.cowary.arttrackerback.entity.tv;
 
-import org.cowary.arttrackerback.entity.Media;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.cowary.arttrackerback.entity.Media;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -23,18 +23,18 @@ public class Tv extends Media {
     private String title;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    private Date releaseDate;
+    private LocalDate releaseDate;
     private Integer releaseYear;
     private String status;
     private Integer score;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    private Date endDate;
+    private LocalDate endDate;
     private Integer seasons;
     private Integer seasonsEnd;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    private Date lastUpd;
+    private LocalDate lastUpd;
     private Long usrId;
     @Transient
     private String type = "Tv";

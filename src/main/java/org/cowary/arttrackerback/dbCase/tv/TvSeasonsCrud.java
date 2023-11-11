@@ -6,10 +6,10 @@ import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.tv.Tv;
 import org.cowary.arttrackerback.entity.tv.TvSeason;
 import org.cowary.arttrackerback.repo.tv.TvSeasonsRepo;
-import org.cowary.arttrackerback.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -24,8 +24,8 @@ public class TvSeasonsCrud implements MediaCrud<TvSeason> {
 
     public void save(TvSeason tvSeason, Tv tv) {
         System.out.println(tv);
-        tvSeason.setLastUpd(DateUtil.now());
-        tv.setLastUpd(DateUtil.now());
+        tvSeason.setLastUpd(LocalDate.now());
+        tv.setLastUpd(LocalDate.now());
         tvCrud.save(tv);
         tvSeason.setTvId(tv.getId());
         tvSeason.setUsrId(userService.getIdCurrentUser());

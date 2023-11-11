@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class AnimeController implements TitleInterface<Anime>, FindController {
+public class AnimeController implements TitleInterface<Anime>, FindController<Anime> {
 
     @Autowired
     AnimeCrud animeCrud;
@@ -72,5 +72,15 @@ public class AnimeController implements TitleInterface<Anime>, FindController {
             findsList.add(fins);
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));
+    }
+
+    @Override
+    @GetMapping("/anime/getByServiceId")
+    public ResponseEntity<Anime> getByIntegrationID(@RequestParam int id) {
+        var animeModel = ShikimoriApi.animeApi().getById(id);
+        var anime = new Anime(
+                animeModel.getName(), animeModel.getRussian(), animeModel.getEpisodes(), DateFormat.HTMLshort.parse(animeModel.getAired_on()), (long) animeModel.getId(), animeModel.getDuration()
+        );
+        return ResponseEntity.ok(anime);
     }
 }

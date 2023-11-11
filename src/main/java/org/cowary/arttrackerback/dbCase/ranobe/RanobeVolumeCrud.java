@@ -4,11 +4,11 @@ import org.cowary.arttrackerback.dbCase.MediaCrud;
 import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
 import org.cowary.arttrackerback.entity.ranobe.RanobeVolume;
+import org.cowary.arttrackerback.repo.ranobe.RanobeVolumeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.cowary.arttrackerback.repo.ranobe.RanobeVolumeRepo;
-import org.cowary.arttrackerback.util.DateUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -23,8 +23,8 @@ public class RanobeVolumeCrud implements MediaCrud<RanobeVolume> {
     UserService userService;
 
     public void save(RanobeVolume ranobeVolume, Ranobe ranobe) {
-        ranobeVolume.setLastUpd(DateUtil.now());
-        ranobe.setLastUpd(DateUtil.now());
+        ranobeVolume.setLastUpd(LocalDate.now());
+        ranobe.setLastUpd(LocalDate.now());
         ranobeCrud.save(ranobe);
         ranobeVolume.setRanobeId(ranobe.getId());
         ranobeVolume.setUsrId(userService.getIdCurrentUser());

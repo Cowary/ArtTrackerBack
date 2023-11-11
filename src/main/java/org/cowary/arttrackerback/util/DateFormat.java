@@ -32,7 +32,7 @@ public enum DateFormat {
 //    }
 
 //    public String formatNow() {
-//        return format.get().format(DateUtil.now());
+//        return format.get().format(LocalDate.now());
 //    }
 //
 //    public String formatThen(int diff, TimeUnit unit) {

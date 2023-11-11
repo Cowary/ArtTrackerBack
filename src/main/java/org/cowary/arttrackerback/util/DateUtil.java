@@ -1,8 +1,7 @@
 package org.cowary.arttrackerback.util;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtil {
@@ -23,9 +22,7 @@ public class DateUtil {
         return new Date(-5364673200000L);
     }
 
-    public static int getYear(Date date) {
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        return calendar.get(Calendar.YEAR);
+    public static int getYear(LocalDate date) {
+        return date.getYear();
     }
 }

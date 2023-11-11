@@ -2,13 +2,12 @@ package org.cowary.arttrackerback.dbCase.book;
 
 import org.cowary.arttrackerback.dbCase.MediaCrud;
 import org.cowary.arttrackerback.dbCase.UserService;
-import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.book.Book;
 import org.cowary.arttrackerback.repo.book.BookRepo;
-import org.cowary.arttrackerback.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -29,7 +28,7 @@ public class BookCrud implements MediaCrud<Book> {
     }
 
     public void save(Book book) {
-        book.setLastUpd(DateUtil.now());
+        book.setLastUpd(LocalDate.now());
         book.setUsrId(userService.getIdCurrentUser());
         bookRepo.save(book);
     }

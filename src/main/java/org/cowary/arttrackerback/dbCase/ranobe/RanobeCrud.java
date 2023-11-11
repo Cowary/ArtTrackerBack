@@ -1,14 +1,12 @@
 package org.cowary.arttrackerback.dbCase.ranobe;
 
-import org.cowary.arttrackerback.dbCase.MediaCrud;
 import org.cowary.arttrackerback.dbCase.UserService;
-import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
 import org.cowary.arttrackerback.repo.ranobe.RanobeRep;
-import org.cowary.arttrackerback.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -24,7 +22,7 @@ public class RanobeCrud  {
     }
 
     public void save(Ranobe ranobe) {
-        ranobe.setLastUpd(DateUtil.now());
+        ranobe.setLastUpd(LocalDate.now());
         ranobeRep.save(ranobe);
     }
 

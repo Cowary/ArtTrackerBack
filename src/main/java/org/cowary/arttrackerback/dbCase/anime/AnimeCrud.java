@@ -3,11 +3,11 @@ package org.cowary.arttrackerback.dbCase.anime;
 import org.cowary.arttrackerback.dbCase.MediaCrud;
 import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.anime.Anime;
+import org.cowary.arttrackerback.repo.anime.AnimeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.cowary.arttrackerback.repo.anime.AnimeRepo;
-import org.cowary.arttrackerback.util.DateUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -24,7 +24,7 @@ public class AnimeCrud implements MediaCrud<Anime> {
     }
 
     public void save(Anime anime) {
-        anime.setLastUpd(DateUtil.now());
+        anime.setLastUpd(LocalDate.now());
         anime.setUsrId(userService.getIdCurrentUser());
         animeRepo.save(anime);
     }

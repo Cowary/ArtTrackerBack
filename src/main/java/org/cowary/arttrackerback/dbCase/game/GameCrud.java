@@ -2,13 +2,13 @@ package org.cowary.arttrackerback.dbCase.game;
 
 import org.cowary.arttrackerback.dbCase.MediaCrud;
 import org.cowary.arttrackerback.dbCase.UserService;
-import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.game.Game;
 import org.cowary.arttrackerback.repo.game.GameRepo;
 import org.cowary.arttrackerback.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -28,7 +28,7 @@ public class GameCrud implements MediaCrud<Game> {
     }
 
     public void save(Game game) {
-        game.setLastUpd(DateUtil.now());
+        game.setLastUpd(LocalDate.now());
         game.setUsrId(userService.getIdCurrentUser());
         if(game.getReleaseDate() != null) game.setReleaseYear(DateUtil.getYear(game.getReleaseDate()));
         gameRepo.save(game);
