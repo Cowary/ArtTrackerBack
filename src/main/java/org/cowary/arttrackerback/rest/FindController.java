@@ -7,5 +7,6 @@ public interface FindController<T> {
 
     ResponseEntity<FindMediaRs> find(String keyword);
     ResponseEntity<T> getByIntegrationID(int id);
+    ResponseEntity<String> getPosterUrl(int id);
 
 }

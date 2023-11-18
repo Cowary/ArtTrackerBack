@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/title")
@@ -60,7 +61,9 @@ public class MangaController implements TitleInterface<Manga>, FindController {
 
     @Override
     @GetMapping("/manga/find")
-    public ResponseEntity<FindMediaRs> find(String keyword) {
+    public ResponseEntity<FindMediaRs> find(@RequestParam(required = false) String keyword) {
+        System.out.println("keyword: " + keyword);
+        Objects.requireNonNull(keyword);
         var mediaModelList = ShikimoriApi.mangaApi().searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (MangaModel mangaModel : mediaModelList) {
@@ -73,5 +76,13 @@ public class MangaController implements TitleInterface<Manga>, FindController {
     @Override
     public ResponseEntity getByIntegrationID(int id) {
         return null;
+    }
+
+    @Override
+    @GetMapping("/manga/getPoster")
+    public ResponseEntity<String> getPosterUrl(int id) {
+        return ResponseEntity.ok(
+                ShikimoriApi.mangaApi().getById(id).getImage().getOriginal()
+        );
     }
 }

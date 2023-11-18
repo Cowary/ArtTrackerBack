@@ -59,7 +59,7 @@ public class MovieController implements TitleInterface<Movie>, FindController {
 
     @Override
     @GetMapping("/movie/find")
-    public ResponseEntity<FindMediaRs> find(String keyword) {
+    public ResponseEntity<FindMediaRs> find(@PathVariable String keyword) {
         var mediaModelList = KinApi.filmApi().searchByKeyword(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (KinResultModel kinResultModel: mediaModelList) {
@@ -71,6 +71,11 @@ public class MovieController implements TitleInterface<Movie>, FindController {
 
     @Override
     public ResponseEntity getByIntegrationID(int id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<String> getPosterUrl(int id) {
         return null;
     }
 }

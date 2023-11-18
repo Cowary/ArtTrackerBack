@@ -58,7 +58,7 @@ public class TvController implements TitleInterface<Tv>, FindController {
 
     @Override
     @GetMapping("/tv/find")
-    public ResponseEntity<FindMediaRs> find(String keyword) {
+    public ResponseEntity<FindMediaRs> find(@PathVariable String keyword) {
         var mediaModelList = KinApi.serialApi().searchByKeyword(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (KinResultModel kinResultModel: mediaModelList) {
@@ -70,6 +70,11 @@ public class TvController implements TitleInterface<Tv>, FindController {
 
     @Override
     public ResponseEntity getByIntegrationID(int id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<String> getPosterUrl(int id) {
         return null;
     }
 }

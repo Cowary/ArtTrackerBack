@@ -12,5 +12,5 @@ public class Finds {
     private String score;
     private Integer episodes;
     private Integer year;
-    private Integer shikiId;
+    private Integer integrationId;
 }

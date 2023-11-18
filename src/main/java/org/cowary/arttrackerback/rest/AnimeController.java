@@ -2,6 +2,8 @@ package org.cowary.arttrackerback.rest;
 
 import jakarta.validation.Valid;
 import org.cowary.arttrackerback.dbCase.anime.AnimeCrud;
+import org.cowary.arttrackerback.dbCase.anime.AnimeRoleCrud;
+import org.cowary.arttrackerback.dbCase.anime.AnimeStudioCrud;
 import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.findRs.Finds;
@@ -22,6 +24,10 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
 
     @Autowired
     AnimeCrud animeCrud;
+    @Autowired
+    AnimeStudioCrud animeStudioCrud;
+    @Autowired
+    AnimeRoleCrud animeRoleCrud;
 
     @Override
     @GetMapping("/anime")
@@ -43,6 +49,13 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
     @PostMapping("/anime")
     public ResponseEntity<Anime> postTitle(@Valid @RequestBody Anime title) {
         animeCrud.save(title);
+        if (title.getShikiId() != null) {
+            var animeModel = ShikimoriApi.animeApi().getById(title.getShikiId());
+            var studioList = List.of(animeModel.getStudios());
+            studioList.forEach(studioModel -> animeStudioCrud.create(studioModel.getName(), title.getId()));
+            animeRoleCrud.create(title.getId(), animeModel.getRoleModels());
+        }
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(title);
@@ -57,7 +70,7 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
 
     @Override
     @DeleteMapping("/anime")
-    public ResponseEntity<String> deleteTitle(@RequestHeader long id) {
+    public ResponseEntity<String> deleteTitle(@RequestParam long id) {
         animeCrud.deleteById(id);
         return ResponseEntity.ok(String.format("anime №%s deleted", id));
     }
@@ -79,8 +92,16 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
     public ResponseEntity<Anime> getByIntegrationID(@RequestParam int id) {
         var animeModel = ShikimoriApi.animeApi().getById(id);
         var anime = new Anime(
-                animeModel.getName(), animeModel.getRussian(), animeModel.getEpisodes(), DateFormat.HTMLshort.parse(animeModel.getAired_on()), (long) animeModel.getId(), animeModel.getDuration()
+                animeModel.getName(), animeModel.getRussian(), animeModel.getEpisodes(), DateFormat.HTMLshort.parse(animeModel.getAired_on()), animeModel.getId(), animeModel.getDuration()
         );
         return ResponseEntity.ok(anime);
+    }
+
+    @Override
+    @GetMapping("/anime/getPoster")
+    public ResponseEntity<String> getPosterUrl(int id) {
+        return ResponseEntity.ok(
+                ShikimoriApi.animeApi().getById(id).getImage().getOriginal()
+        );
     }
 }

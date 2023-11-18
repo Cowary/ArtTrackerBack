@@ -59,7 +59,7 @@ public class RanobeController implements TitleInterface<Ranobe>, FindController 
 
     @Override
     @GetMapping("/ranobe/find")
-    public ResponseEntity<FindMediaRs> find(String keyword) {
+    public ResponseEntity<FindMediaRs> find(@PathVariable String keyword) {
         var mediaModelList = ShikimoriApi.ranobeApi().searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (RanobeModel ranobeModel : mediaModelList) {
@@ -72,5 +72,13 @@ public class RanobeController implements TitleInterface<Ranobe>, FindController 
     @Override
     public ResponseEntity getByIntegrationID(int id) {
         return null;
+    }
+
+    @Override
+    @GetMapping("/ranobe/getPoster")
+    public ResponseEntity<String> getPosterUrl(int id) {
+        return ResponseEntity.ok(
+                ShikimoriApi.ranobeApi().getById(id).getImage().getOriginal()
+        );
     }
 }
