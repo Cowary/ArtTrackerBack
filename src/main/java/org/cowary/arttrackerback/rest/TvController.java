@@ -1,8 +1,8 @@
 package org.cowary.arttrackerback.rest;
 
 import org.cowary.arttrackerback.dbCase.tv.TvCrud;
-import org.cowary.arttrackerback.entity.findRs.FindMediaRs;
-import org.cowary.arttrackerback.entity.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
+import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.tv.Tv;
 import org.cowary.arttrackerback.integration.api.kin.KinApi;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
@@ -73,8 +73,4 @@ public class TvController implements TitleInterface<Tv>, FindController {
         return null;
     }
 
-    @Override
-    public ResponseEntity<String> getPosterUrl(int id) {
-        return null;
-    }
 }

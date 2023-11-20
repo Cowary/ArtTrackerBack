@@ -1,8 +1,8 @@
 package org.cowary.arttrackerback.rest;
 
 import org.cowary.arttrackerback.dbCase.movie.MovieCrud;
-import org.cowary.arttrackerback.entity.findRs.FindMediaRs;
-import org.cowary.arttrackerback.entity.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
+import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.movie.Movie;
 import org.cowary.arttrackerback.integration.api.kin.KinApi;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
@@ -74,8 +74,4 @@ public class MovieController implements TitleInterface<Movie>, FindController {
         return null;
     }
 
-    @Override
-    public ResponseEntity<String> getPosterUrl(int id) {
-        return null;
-    }
 }

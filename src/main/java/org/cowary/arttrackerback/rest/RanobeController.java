@@ -1,8 +1,8 @@
 package org.cowary.arttrackerback.rest;
 
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeCrud;
-import org.cowary.arttrackerback.entity.findRs.FindMediaRs;
-import org.cowary.arttrackerback.entity.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
+import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
 import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
 import org.cowary.arttrackerback.integration.model.shiki.RanobeModel;
@@ -74,11 +74,4 @@ public class RanobeController implements TitleInterface<Ranobe>, FindController 
         return null;
     }
 
-    @Override
-    @GetMapping("/ranobe/getPoster")
-    public ResponseEntity<String> getPosterUrl(int id) {
-        return ResponseEntity.ok(
-                ShikimoriApi.ranobeApi().getById(id).getImage().getOriginal()
-        );
-    }
 }

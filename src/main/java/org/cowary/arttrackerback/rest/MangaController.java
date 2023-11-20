@@ -1,8 +1,8 @@
 package org.cowary.arttrackerback.rest;
 
 import org.cowary.arttrackerback.dbCase.manga.MangaCrud;
-import org.cowary.arttrackerback.entity.findRs.FindMediaRs;
-import org.cowary.arttrackerback.entity.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
+import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.manga.Manga;
 import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
 import org.cowary.arttrackerback.integration.model.shiki.MangaModel;
@@ -76,13 +76,5 @@ public class MangaController implements TitleInterface<Manga>, FindController {
     @Override
     public ResponseEntity getByIntegrationID(int id) {
         return null;
-    }
-
-    @Override
-    @GetMapping("/manga/getPoster")
-    public ResponseEntity<String> getPosterUrl(int id) {
-        return ResponseEntity.ok(
-                ShikimoriApi.mangaApi().getById(id).getImage().getOriginal()
-        );
     }
 }

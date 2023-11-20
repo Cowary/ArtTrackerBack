@@ -5,8 +5,9 @@ import org.cowary.arttrackerback.dbCase.anime.AnimeCrud;
 import org.cowary.arttrackerback.dbCase.anime.AnimeRoleCrud;
 import org.cowary.arttrackerback.dbCase.anime.AnimeStudioCrud;
 import org.cowary.arttrackerback.entity.anime.Anime;
-import org.cowary.arttrackerback.entity.findRs.FindMediaRs;
-import org.cowary.arttrackerback.entity.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
+import org.cowary.arttrackerback.entity.api.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.mediaRs.AnimeRs;
 import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
 import org.cowary.arttrackerback.integration.model.shiki.AnimeModel;
 import org.cowary.arttrackerback.util.DateFormat;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class AnimeController implements TitleInterface<Anime>, FindController<Anime> {
+public class AnimeController implements TitleInterface<Anime>, FindController<AnimeRs> {
 
     @Autowired
     AnimeCrud animeCrud;
@@ -89,19 +90,13 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
 
     @Override
     @GetMapping("/anime/getByServiceId")
-    public ResponseEntity<Anime> getByIntegrationID(@RequestParam int id) {
+    public ResponseEntity<AnimeRs> getByIntegrationID(@RequestParam int id) {
         var animeModel = ShikimoriApi.animeApi().getById(id);
         var anime = new Anime(
                 animeModel.getName(), animeModel.getRussian(), animeModel.getEpisodes(), DateFormat.HTMLshort.parse(animeModel.getAired_on()), animeModel.getId(), animeModel.getDuration()
         );
-        return ResponseEntity.ok(anime);
-    }
-
-    @Override
-    @GetMapping("/anime/getPoster")
-    public ResponseEntity<String> getPosterUrl(int id) {
         return ResponseEntity.ok(
-                ShikimoriApi.animeApi().getById(id).getImage().getOriginal()
+                new AnimeRs(anime, animeModel.getImage().getOriginal())
         );
     }
 }
