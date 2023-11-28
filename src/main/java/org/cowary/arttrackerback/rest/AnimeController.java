@@ -14,6 +14,7 @@ import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
     @Override
     @PostMapping("/anime")
     public ResponseEntity<Anime> postTitle(@Valid @RequestBody Anime title) {
+        var user = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("k: " + user);
         animeCrud.save(title);
         if (title.getShikiId() != null) {
             var animeModel = ShikimoriApi.animeApi().getById(title.getShikiId());
@@ -56,7 +59,6 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
             studioList.forEach(studioModel -> animeStudioCrud.create(studioModel.getName(), title.getId()));
             animeRoleCrud.create(title.getId(), animeModel.getRoleModels());
         }
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(title);
@@ -64,15 +66,16 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
 
     @Override
     @PutMapping("/anime")
-    public ResponseEntity<Anime> putTitle(Anime title) {
+    public ResponseEntity<Anime> putTitle(@Valid @RequestBody Anime title) {
         animeCrud.save(title);
         return ResponseEntity.ok(title);
     }
 
     @Override
     @DeleteMapping("/anime")
-    public ResponseEntity<String> deleteTitle(@RequestParam long id) {
+    public ResponseEntity<String> deleteTitle(@RequestHeader long id) {
         animeCrud.deleteById(id);
+
         return ResponseEntity.ok(String.format("anime №%s deleted", id));
     }
 
@@ -82,7 +85,9 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
         var animeModelList = ShikimoriApi.animeApi().searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (AnimeModel animeModel : animeModelList) {
-            var fins = new Finds(animeModel.getName(), animeModel.getRussian(), animeModel.getScore(), animeModel.getEpisodes(), DateFormat.HTMLshort.parse(animeModel.getAired_on()).getYear(), animeModel.getId());
+            Integer airedDate = null;
+            if (animeModel.getAired_on() != null) airedDate = DateFormat.HTMLshort.parse(animeModel.getAired_on()).getYear();
+            var fins = new Finds(animeModel.getName(), animeModel.getRussian(), animeModel.getScore(), animeModel.getEpisodes(), airedDate, animeModel.getId());
             findsList.add(fins);
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));

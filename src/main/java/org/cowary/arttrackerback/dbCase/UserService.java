@@ -5,7 +5,7 @@ import org.cowary.arttrackerback.entity.User;
 import org.cowary.arttrackerback.repo.user.UserRepo;
 import org.cowary.arttrackerback.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,15 +18,15 @@ public class UserService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username);
 
         return UserDetailsImpl.build(user);
     }
 
     public Long getIdCurrentUser() {
-        return 1L;
-        //return userRepo.findByUsername(getName()).getId();
+        var user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getId();
     }
 
     public String getNameCurrentUser() {
