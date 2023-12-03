@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.mediaRs.RanobeRs;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
 import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
 import org.cowary.arttrackerback.integration.model.shiki.RanobeModel;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class RanobeController implements TitleInterface<Ranobe>, FindController {
+public class RanobeController implements TitleInterface<Ranobe>, FindController<RanobeRs> {
 
     @Autowired
     RanobeCrud ranobeCrud;

@@ -1,8 +1,12 @@
 package org.cowary.arttrackerback.rest;
 
+import jakarta.validation.Valid;
 import org.cowary.arttrackerback.dbCase.manga.MangaCrud;
+import org.cowary.arttrackerback.dbCase.manga.MangaPublisherCrud;
+import org.cowary.arttrackerback.dbCase.manga.MangaRoleCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.mediaRs.MangaRs;
 import org.cowary.arttrackerback.entity.manga.Manga;
 import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
 import org.cowary.arttrackerback.integration.model.shiki.MangaModel;
@@ -22,6 +26,10 @@ public class MangaController implements TitleInterface<Manga>, FindController {
 
     @Autowired
     private MangaCrud mangaCrud;
+    @Autowired
+    private MangaPublisherCrud mangaPublisherCrud;
+    @Autowired
+    private MangaRoleCrud mangaRoleCrud;
 
     @Override
     @GetMapping("/manga")
@@ -40,20 +48,28 @@ public class MangaController implements TitleInterface<Manga>, FindController {
     }
 
     @Override
-    public ResponseEntity<Manga> postTitle(Manga title) {
+    @PostMapping("/manga")
+    public ResponseEntity<Manga> postTitle(@Valid @RequestBody Manga title) {
         mangaCrud.save(title);
+        if (title.getShikiId() != null) {
+            var mangaModel = ShikimoriApi.mangaApi().getById(title.getShikiId());
+            mangaPublisherCrud.create(title.getId(), List.of(mangaModel.getPublishers()));
+            mangaRoleCrud.create(title.getId(), List.of(mangaModel.getRoleModels()));
+        }
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(title);
     }
 
     @Override
+    @PutMapping("/manga")
     public ResponseEntity<Manga> putTitle(Manga title) {
         mangaCrud.save(title);
         return ResponseEntity.ok(title);
     }
 
     @Override
+    @DeleteMapping("/manga")
     public ResponseEntity<String> deleteTitle(long id) {
         mangaCrud.deleteById(id);
         return ResponseEntity.ok(String.format("Manga №%s deleted", id));
@@ -74,7 +90,14 @@ public class MangaController implements TitleInterface<Manga>, FindController {
     }
 
     @Override
-    public ResponseEntity getByIntegrationID(int id) {
-        return null;
+    @GetMapping("/manga/getByServiceId")
+    public ResponseEntity<MangaRs> getByIntegrationID(@RequestParam int id) {
+        var mangaModel = ShikimoriApi.mangaApi().getById(id);
+        var manga = new Manga(
+                mangaModel.getName(), mangaModel.getRussian(), mangaModel.getVolumes(), mangaModel.getChapters(), DateFormat.HTMLshort.parse(mangaModel.getAired_on()), mangaModel.getId()
+        );
+        return ResponseEntity.ok(
+                new MangaRs(manga, mangaModel.getImage().getOriginal())
+        );
     }
 }

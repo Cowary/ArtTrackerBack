@@ -14,7 +14,6 @@ import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -50,8 +49,6 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
     @Override
     @PostMapping("/anime")
     public ResponseEntity<Anime> postTitle(@Valid @RequestBody Anime title) {
-        var user = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("k: " + user);
         animeCrud.save(title);
         if (title.getShikiId() != null) {
             var animeModel = ShikimoriApi.animeApi().getById(title.getShikiId());

@@ -1,5 +1,6 @@
 package org.cowary.arttrackerback.rest;
 
+import jakarta.validation.Valid;
 import org.cowary.arttrackerback.dbCase.game.GameCrud;
 import org.cowary.arttrackerback.entity.game.Game;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,20 +34,23 @@ public class GameController implements TitleInterface<Game> {
     }
 
     @Override
-    public ResponseEntity<Game> postTitle(Game title) {
+    @PostMapping("/game")
+    public ResponseEntity<Game> postTitle(@Valid @RequestBody Game title) {
         gameCrud.save(title);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(title);
     }
 
     @Override
-    public ResponseEntity<Game> putTitle(Game title) {
+    @PutMapping("/game")
+    public ResponseEntity<Game> putTitle(@Valid @RequestBody Game title) {
         gameCrud.save(title);
         return ResponseEntity.ok(title);
     }
 
     @Override
-    public ResponseEntity<String> deleteTitle(long id) {
+    @DeleteMapping("/game")
+    public ResponseEntity<String> deleteTitle(@RequestHeader long id) {
         gameCrud.deleteById(id);
         return ResponseEntity.ok(String.format("game №%s deleted", id));
     }

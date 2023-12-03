@@ -1,5 +1,6 @@
 package org.cowary.arttrackerback.rest;
 
+import jakarta.validation.Valid;
 import org.cowary.arttrackerback.dbCase.book.BookCrud;
 import org.cowary.arttrackerback.entity.book.Book;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,20 +34,23 @@ public class BookController implements TitleInterface<Book> {
     }
 
     @Override
-    public ResponseEntity<Book> postTitle(Book title) {
+    @PostMapping("/book")
+    public ResponseEntity<Book> postTitle(@Valid @RequestBody Book title) {
         bookCrud.save(title);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(title);
     }
 
     @Override
-    public ResponseEntity<Book> putTitle(Book title) {
+    @PutMapping("/book")
+    public ResponseEntity<Book> putTitle(@Valid @RequestBody Book title) {
         bookCrud.save(title);
         return ResponseEntity.ok(title);
     }
 
     @Override
-    public ResponseEntity<String> deleteTitle(long id) {
+    @DeleteMapping("/book")
+    public ResponseEntity<String> deleteTitle(@RequestHeader long id) {
         bookCrud.deleteById(id);
         return ResponseEntity.ok(String.format("book №%s deleted", id));
     }

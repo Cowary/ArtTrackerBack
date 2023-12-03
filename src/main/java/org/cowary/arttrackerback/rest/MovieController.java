@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import org.cowary.arttrackerback.dbCase.movie.MovieCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.mediaRs.MovieRs;
 import org.cowary.arttrackerback.entity.movie.Movie;
 import org.cowary.arttrackerback.integration.api.kin.KinApi;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
@@ -38,6 +39,7 @@ public class MovieController implements TitleInterface<Movie>, FindController {
     }
 
     @Override
+    @PostMapping("/movie")
     public ResponseEntity<Movie> postTitle(Movie title) {
         movieCrud.save(title);
         return ResponseEntity.
@@ -46,12 +48,14 @@ public class MovieController implements TitleInterface<Movie>, FindController {
     }
 
     @Override
+    @PutMapping("/movie")
     public ResponseEntity<Movie> putTitle(Movie title) {
         movieCrud.save(title);
         return ResponseEntity.ok(title);
     }
 
     @Override
+    @DeleteMapping("/movie")
     public ResponseEntity<String> deleteTitle(long id) {
         movieCrud.deleteById(id);
         return ResponseEntity.ok(String.format("movie №%s deleted", id));
@@ -70,8 +74,11 @@ public class MovieController implements TitleInterface<Movie>, FindController {
     }
 
     @Override
-    public ResponseEntity getByIntegrationID(int id) {
-        return null;
+    @GetMapping("/movie/getByServiceId")
+    public ResponseEntity<MovieRs> getByIntegrationID(@RequestParam int id) {
+        var kinFilmModel = KinApi.filmApi().getById(id);
+        var movie = new Movie(kinFilmModel.getNameOriginal(), kinFilmModel.getNameRu(), kinFilmModel.getYear(), kinFilmModel.getFilmLength());
+        return ResponseEntity.ok(new MovieRs(movie, kinFilmModel.getPosterUrl()));
     }
 
 }

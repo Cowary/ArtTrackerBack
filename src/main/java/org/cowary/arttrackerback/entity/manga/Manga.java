@@ -32,7 +32,7 @@ public class Manga extends Media {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private LocalDate endDate;
-    private Long shikiId;
+    private Integer shikiId;
     private Integer volumesEnd;
     private Integer chaptersEnd;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -42,7 +42,7 @@ public class Manga extends Media {
     @Transient
     private String type = "Manga";
 
-    public Manga(String originalTitle, String title, Integer volumes, Integer chapters, LocalDate releaseDate, Long shikiId) {
+    public Manga(String originalTitle, String title, Integer volumes, Integer chapters, LocalDate releaseDate, Integer shikiId) {
         this.originalTitle = originalTitle;
         this.title = title;
         this.volumes = volumes;
