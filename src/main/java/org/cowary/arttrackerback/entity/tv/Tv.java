@@ -25,13 +25,8 @@ public class Tv extends Media {
     @Temporal(TemporalType.DATE)
     private LocalDate releaseDate;
     private Integer releaseYear;
-    private String status;
     private Integer score;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
-    private LocalDate endDate;
     private Integer seasons;
-    private Integer seasonsEnd;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private LocalDate lastUpd;

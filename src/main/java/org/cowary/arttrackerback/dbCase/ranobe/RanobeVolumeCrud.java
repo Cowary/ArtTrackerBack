@@ -1,10 +1,10 @@
 package org.cowary.arttrackerback.dbCase.ranobe;
 
 import org.cowary.arttrackerback.dbCase.MediaCrud;
-import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
 import org.cowary.arttrackerback.entity.ranobe.RanobeVolume;
 import org.cowary.arttrackerback.repo.ranobe.RanobeVolumeRepo;
+import org.cowary.arttrackerback.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,13 @@ public class RanobeVolumeCrud implements MediaCrud<RanobeVolume> {
         ranobeVolume.setLastUpd(LocalDate.now());
         ranobe.setLastUpd(LocalDate.now());
         ranobeCrud.save(ranobe);
-        ranobeVolume.setRanobeId(ranobe.getId());
+//        ranobeVolume.setRanobeId(ranobe.getId());
+        ranobeVolume.setUsrId(userService.getIdCurrentUser());
+        ranobeVolumeRepo.save(ranobeVolume);
+    }
+
+    public void save(RanobeVolume ranobeVolume) {
+        ranobeVolume.setLastUpd(LocalDate.now());
         ranobeVolume.setUsrId(userService.getIdCurrentUser());
         ranobeVolumeRepo.save(ranobeVolume);
     }
@@ -41,19 +47,16 @@ public class RanobeVolumeCrud implements MediaCrud<RanobeVolume> {
 //        return ranobeVolumes;
 //    }
 
-//    public RanobeVolume getById(long id) {
-//        return ranobeVolumeCrud.findById(id).orElseThrow();
-//    }
+    public RanobeVolume getById(long id) {
+        return ranobeVolumeRepo.findById(id).orElseThrow();
+    }
 
     public void delete(RanobeVolume ranobeVolume) {
         ranobeVolumeRepo.delete(ranobeVolume);
     }
 
-    private void fill(List<RanobeVolume> volumes) {
-        for (RanobeVolume ranobeVolume : volumes) {
-            Ranobe ranobe = ranobeCrud.findById(ranobeVolume.getRanobeId());
-            ranobeVolume.setCommonField(ranobe);
-        }
+    public void deleteById(long id) {
+        ranobeVolumeRepo.deleteById(id);
     }
 
     @Override
@@ -61,7 +64,6 @@ public class RanobeVolumeCrud implements MediaCrud<RanobeVolume> {
         List<RanobeVolume> ranobeVolumes;
         if(status.equals("")) ranobeVolumes = ranobeVolumeRepo.findAllByUsrId(userId);
         else ranobeVolumes = ranobeVolumeRepo.findAllByStatus(status);
-        fill(ranobeVolumes);
         return ranobeVolumes;
     }
 }

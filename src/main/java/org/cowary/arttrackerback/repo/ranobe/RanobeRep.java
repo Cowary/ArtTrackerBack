@@ -8,6 +8,6 @@ import java.util.List;
 public interface RanobeRep extends CrudRepository<Ranobe, Long> {
     List<Ranobe> findAll();
     List<Ranobe> findAllByUsrId(Long usrId);
-    List<Ranobe> findAllByStatus(String status);
     Ranobe findRanobeByOriginalTitleAndUsrId(String originalTitle, long usrId);
+    Ranobe findRanobeByShikiIdAndUsrId(int shikiId, long usrId);
 }

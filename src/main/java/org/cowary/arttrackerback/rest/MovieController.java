@@ -63,10 +63,11 @@ public class MovieController implements TitleInterface<Movie>, FindController {
 
     @Override
     @GetMapping("/movie/find")
-    public ResponseEntity<FindMediaRs> find(@PathVariable String keyword) {
+    public ResponseEntity<FindMediaRs> find(@RequestParam String keyword) {
         var mediaModelList = KinApi.filmApi().searchByKeyword(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (KinResultModel kinResultModel: mediaModelList) {
+            int year = 0;;
             var fins = new Finds(kinResultModel.getNameEn(), kinResultModel.getNameRu(), kinResultModel.getRating(), 1, Integer.valueOf(kinResultModel.getYear()), kinResultModel.getFilmId());
             findsList.add(fins);
         }

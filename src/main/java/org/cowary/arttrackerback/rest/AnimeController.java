@@ -2,8 +2,6 @@ package org.cowary.arttrackerback.rest;
 
 import jakarta.validation.Valid;
 import org.cowary.arttrackerback.dbCase.anime.AnimeCrud;
-import org.cowary.arttrackerback.dbCase.anime.AnimeRoleCrud;
-import org.cowary.arttrackerback.dbCase.anime.AnimeStudioCrud;
 import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
@@ -16,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +24,6 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
 
     @Autowired
     AnimeCrud animeCrud;
-    @Autowired
-    AnimeStudioCrud animeStudioCrud;
-    @Autowired
-    AnimeRoleCrud animeRoleCrud;
 
     @Override
     @GetMapping("/anime")
@@ -50,12 +45,6 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
     @PostMapping("/anime")
     public ResponseEntity<Anime> postTitle(@Valid @RequestBody Anime title) {
         animeCrud.save(title);
-        if (title.getShikiId() != null) {
-            var animeModel = ShikimoriApi.animeApi().getById(title.getShikiId());
-            var studioList = List.of(animeModel.getStudios());
-            studioList.forEach(studioModel -> animeStudioCrud.create(studioModel.getName(), title.getId()));
-            animeRoleCrud.create(title.getId(), animeModel.getRoleModels());
-        }
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(title);
@@ -82,9 +71,8 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
         var animeModelList = ShikimoriApi.animeApi().searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (AnimeModel animeModel : animeModelList) {
-            Integer airedDate = null;
-            if (animeModel.getAired_on() != null) airedDate = DateFormat.HTMLshort.parse(animeModel.getAired_on()).getYear();
-            var fins = new Finds(animeModel.getName(), animeModel.getRussian(), animeModel.getScore(), animeModel.getEpisodes(), airedDate, animeModel.getId());
+            var fins = new Finds(animeModel.getName(), animeModel.getRussian(), animeModel.getScore(), animeModel.getEpisodes(),
+                    LocalDate.parse(animeModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()).getYear(), animeModel.getId());
             findsList.add(fins);
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));

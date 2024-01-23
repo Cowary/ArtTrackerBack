@@ -1,8 +1,8 @@
 package org.cowary.arttrackerback.dbCase.ranobe;
 
-import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
 import org.cowary.arttrackerback.repo.ranobe.RanobeRep;
+import org.cowary.arttrackerback.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +33,10 @@ public class RanobeCrud  {
 
     public Ranobe findByOriginalTitleAndUserId(String originalTitle ) {
         return ranobeRep.findRanobeByOriginalTitleAndUsrId(originalTitle, userService.getIdCurrentUser());
+    }
+
+    public Ranobe findByOriginalTitleAndUserId(int shikiId) {
+        return ranobeRep.findRanobeByShikiIdAndUsrId(shikiId, userService.getIdCurrentUser());
     }
 
     public void deleteById(long id) {
