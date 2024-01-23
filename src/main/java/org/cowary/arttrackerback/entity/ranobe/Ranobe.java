@@ -23,8 +23,6 @@ public class Ranobe extends Media {
     private String originalTitle;
     private String title;
     private Integer volumes;
-    private Integer chapters;
-    private String status;
     private Integer score;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
@@ -32,10 +30,7 @@ public class Ranobe extends Media {
     private Integer releaseYear;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
-    private LocalDate endDate;
-    private Long shikiId;
-    private Integer volumesEnd;
-    private Integer chaptersEnd;
+    private Integer shikiId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private LocalDate lastUpd;
@@ -43,15 +38,13 @@ public class Ranobe extends Media {
     @Transient
     private String type = "Ranobe";
 
-    public Ranobe(String originalTitle, String title, Integer volumes, Integer chapters, LocalDate releaseDate, Long shikiId) {
+    public Ranobe(String originalTitle, String title, Integer volumes, LocalDate releaseDate, Integer shikiId) {
         this.originalTitle = originalTitle;
         this.title = title;
         this.volumes = volumes;
-        this.chapters = chapters;
         this.releaseDate = releaseDate;
         this.releaseYear = DateUtil.getYear(releaseDate);
         this.shikiId = shikiId;
-        this.status = "Planned";
     }
 
     public Ranobe() {

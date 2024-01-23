@@ -20,7 +20,7 @@ public class AnimeGetControllerTest {
     @Test
     @WithMockUser(username = "ruderu")
     public void testListOfAnime() throws Exception {
-        mockMvc.perform(get("/title/anime")
+        var c = mockMvc.perform(get("/title/anime")
                         .header("userId", 3))
                 .andExpect(status().isOk())
                 .andExpect(header().stringValues("Content-Type", "application/json"));

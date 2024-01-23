@@ -1,6 +1,6 @@
 package org.cowary.arttrackerback.repo.user;
 
-import org.cowary.arttrackerback.entity.User;
+import org.cowary.arttrackerback.security.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

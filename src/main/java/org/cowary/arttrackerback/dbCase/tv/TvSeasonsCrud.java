@@ -2,10 +2,10 @@ package org.cowary.arttrackerback.dbCase.tv;
 
 
 import org.cowary.arttrackerback.dbCase.MediaCrud;
-import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.tv.Tv;
 import org.cowary.arttrackerback.entity.tv.TvSeason;
 import org.cowary.arttrackerback.repo.tv.TvSeasonsRepo;
+import org.cowary.arttrackerback.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,15 +38,7 @@ public class TvSeasonsCrud implements MediaCrud<TvSeason> {
         if(status.equals("")) tvSeasons = tvSeasonsRepo.findAllByUsrId(userId);
         else tvSeasons = tvSeasonsRepo.findAllByStatus(status);
 
-        fill(tvSeasons);
         return tvSeasons;
-    }
-
-    private void fill(List<TvSeason> tvSeasons) {
-        for(TvSeason tvSeason : tvSeasons) {
-            Tv tv = tvCrud.findById(tvSeason.getTvId());
-            tvSeason.setCommonField(tv);
-        }
     }
 
     public TvSeason getById(long id) {

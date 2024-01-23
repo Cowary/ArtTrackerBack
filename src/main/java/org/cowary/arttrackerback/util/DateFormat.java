@@ -1,8 +1,11 @@
 package org.cowary.arttrackerback.util;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Getter
 public enum DateFormat {
     ddMMyyyy("dd.MM.yyyy"),
     ddMMyyyyHHmm("dd.MM.yyyy HH:mm"),

@@ -2,8 +2,6 @@ package org.cowary.arttrackerback.rest;
 
 import jakarta.validation.Valid;
 import org.cowary.arttrackerback.dbCase.manga.MangaCrud;
-import org.cowary.arttrackerback.dbCase.manga.MangaPublisherCrud;
-import org.cowary.arttrackerback.dbCase.manga.MangaRoleCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.api.mediaRs.MangaRs;
@@ -16,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,10 +25,6 @@ public class MangaController implements TitleInterface<Manga>, FindController {
 
     @Autowired
     private MangaCrud mangaCrud;
-    @Autowired
-    private MangaPublisherCrud mangaPublisherCrud;
-    @Autowired
-    private MangaRoleCrud mangaRoleCrud;
 
     @Override
     @GetMapping("/manga")
@@ -51,11 +46,6 @@ public class MangaController implements TitleInterface<Manga>, FindController {
     @PostMapping("/manga")
     public ResponseEntity<Manga> postTitle(@Valid @RequestBody Manga title) {
         mangaCrud.save(title);
-        if (title.getShikiId() != null) {
-            var mangaModel = ShikimoriApi.mangaApi().getById(title.getShikiId());
-            mangaPublisherCrud.create(title.getId(), List.of(mangaModel.getPublishers()));
-            mangaRoleCrud.create(title.getId(), List.of(mangaModel.getRoleModels()));
-        }
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(title);
@@ -83,7 +73,8 @@ public class MangaController implements TitleInterface<Manga>, FindController {
         var mediaModelList = ShikimoriApi.mangaApi().searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (MangaModel mangaModel : mediaModelList) {
-            var fins = new Finds(mangaModel.getName(), mangaModel.getRussian(), mangaModel.getScore(), mangaModel.getChapters(), DateFormat.HTMLshort.parse(mangaModel.getAired_on()).getYear(), mangaModel.getId());
+            var fins = new Finds(mangaModel.getName(), mangaModel.getRussian(), mangaModel.getScore(), mangaModel.getChapters(),
+                    LocalDate.parse(mangaModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()).getYear(), mangaModel.getId());
             findsList.add(fins);
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));

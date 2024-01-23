@@ -1,13 +1,14 @@
 package org.cowary.arttrackerback.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.cowary.arttrackerback.security.User;
+
 import java.util.Set;
 
 @Getter

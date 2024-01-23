@@ -1,9 +1,9 @@
 package org.cowary.arttrackerback.dbCase.book;
 
 import org.cowary.arttrackerback.dbCase.MediaCrud;
-import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.book.Book;
 import org.cowary.arttrackerback.repo.book.BookRepo;
+import org.cowary.arttrackerback.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

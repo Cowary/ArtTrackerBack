@@ -1,7 +1,8 @@
-package org.cowary.arttrackerback.entity;
+package org.cowary.arttrackerback.security;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.cowary.arttrackerback.entity.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

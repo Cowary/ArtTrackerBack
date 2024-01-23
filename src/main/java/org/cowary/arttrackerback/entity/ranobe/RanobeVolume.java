@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.cowary.arttrackerback.entity.Media;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -20,8 +22,7 @@ public class RanobeVolume extends Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private Integer chapters;
-    private Integer chaptersEnd;
+    private Integer number;
     private String status;
     private Integer score;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -30,28 +31,11 @@ public class RanobeVolume extends Media {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private LocalDate lastUpd;
-    private Long ranobeId;
+    @ManyToOne()
+    @Cascade({CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "ranobe_id")
+    private Ranobe ranobe;
     private Long usrId;
     @Transient
-    private String originalTitle;
-    @Transient
-    private Integer volumes;
-    @Transient
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
-    private LocalDate releaseDate;
-    @Transient
-    private Integer releaseYear;
-    @Transient
-    private Integer volumesEnd;
-    @Transient
     private String type = "Ranobe";
-
-    public void setCommonField(Ranobe ranobe) {
-        originalTitle = ranobe.getOriginalTitle();
-        volumes = ranobe.getVolumes();
-        releaseDate = ranobe.getReleaseDate();
-        releaseYear = ranobe.getReleaseYear();
-        volumesEnd = ranobe.getVolumesEnd();
-    }
 }

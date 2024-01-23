@@ -1,10 +1,10 @@
 package org.cowary.arttrackerback.dbCase.anime;
 
 import org.cowary.arttrackerback.dbCase.MediaCrud;
-import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.repo.anime.AnimeRepo;
 import org.cowary.arttrackerback.security.UserDetailsImpl;
+import org.cowary.arttrackerback.security.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

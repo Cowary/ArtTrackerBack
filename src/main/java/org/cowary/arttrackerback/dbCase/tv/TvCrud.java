@@ -1,8 +1,8 @@
 package org.cowary.arttrackerback.dbCase.tv;
 
-import org.cowary.arttrackerback.dbCase.UserService;
 import org.cowary.arttrackerback.entity.tv.Tv;
 import org.cowary.arttrackerback.repo.tv.TvRepo;
+import org.cowary.arttrackerback.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
