@@ -34,6 +34,8 @@ public class RanobeVolumeCrud implements MediaCrud<RanobeVolume> {
     public void save(RanobeVolume ranobeVolume) {
         ranobeVolume.setLastUpd(LocalDate.now());
         ranobeVolume.setUsrId(userService.getIdCurrentUser());
+        ranobeVolume.getRanobe().setLastUpd(LocalDate.now());
+        ranobeVolume.getRanobe().setUsrId(userService.getIdCurrentUser());
         ranobeVolumeRepo.save(ranobeVolume);
     }
 
@@ -65,5 +67,9 @@ public class RanobeVolumeCrud implements MediaCrud<RanobeVolume> {
         if(status.equals("")) ranobeVolumes = ranobeVolumeRepo.findAllByUsrId(userId);
         else ranobeVolumes = ranobeVolumeRepo.findAllByStatus(status);
         return ranobeVolumes;
+    }
+
+    public List<RanobeVolume> getAllByUserId(long userId) {
+        return ranobeVolumeRepo.findAllByUsrId(userId);
     }
 }

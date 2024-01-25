@@ -31,11 +31,11 @@ public class RanobeCrud  {
                 .orElseThrow();
     }
 
-    public Ranobe findByOriginalTitleAndUserId(String originalTitle ) {
+    public Ranobe findByShikiIdAndUserId(String originalTitle ) {
         return ranobeRep.findRanobeByOriginalTitleAndUsrId(originalTitle, userService.getIdCurrentUser());
     }
 
-    public Ranobe findByOriginalTitleAndUserId(int shikiId) {
+    public Ranobe findByShikiIdAndUserId(int shikiId) {
         return ranobeRep.findRanobeByShikiIdAndUsrId(shikiId, userService.getIdCurrentUser());
     }
 

@@ -31,8 +31,11 @@ public class RanobeController implements TitleInterface<RanobeVolume>, FindContr
     RanobeCrud ranobeCrud;
 
     @Override
-    public ResponseEntity<List<RanobeVolume>> getAllByUsrId(long userId) {
-        return null;
+    @GetMapping("/ranobe")
+    public ResponseEntity<List<RanobeVolume>> getAllByUsrId(@RequestHeader long userId) {
+        return ResponseEntity.ok(
+                ranobeVolumeCrud.getAllByUserId(userId)
+        );
     }
 
     @Override
@@ -82,7 +85,7 @@ public class RanobeController implements TitleInterface<RanobeVolume>, FindContr
     @Override
     @GetMapping("/ranobe/getByServiceId")
     public ResponseEntity<RanobeRs> getByIntegrationID(@RequestParam int id) {
-        var actualRanobe = ranobeCrud.findByOriginalTitleAndUserId(id);
+        var actualRanobe = ranobeCrud.findByShikiIdAndUserId(id);
         var ranobeModel = ShikimoriApi.ranobeApi().getById(id);
         var ranobe = new Ranobe(
                 ranobeModel.getName(), ranobeModel.getRussian(), ranobeModel.getVolumes(),
