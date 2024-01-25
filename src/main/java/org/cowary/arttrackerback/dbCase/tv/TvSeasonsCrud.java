@@ -18,17 +18,21 @@ public class TvSeasonsCrud implements MediaCrud<TvSeason> {
     @Autowired
     TvSeasonsRepo tvSeasonsRepo;
     @Autowired
-    TvCrud tvCrud;
-    @Autowired
     UserService userService;
 
     public void save(TvSeason tvSeason, Tv tv) {
-        System.out.println(tv);
-        tvSeason.setLastUpd(LocalDate.now());
         tv.setLastUpd(LocalDate.now());
-        tvCrud.save(tv);
-        tvSeason.setTvId(tv.getId());
+        tv.setUsrId(userService.getIdCurrentUser());
         tvSeason.setUsrId(userService.getIdCurrentUser());
+        tvSeason.setLastUpd(LocalDate.now());
+        tvSeasonsRepo.save(tvSeason);
+    }
+
+    public void save(TvSeason tvSeason) {
+        tvSeason.getTv().setLastUpd(LocalDate.now());
+        tvSeason.getTv().setUsrId(userService.getIdCurrentUser());
+        tvSeason.setUsrId(userService.getIdCurrentUser());
+        tvSeason.setLastUpd(LocalDate.now());
         tvSeasonsRepo.save(tvSeason);
     }
 
@@ -41,15 +45,20 @@ public class TvSeasonsCrud implements MediaCrud<TvSeason> {
         return tvSeasons;
     }
 
+    public List<TvSeason> getAllByUserId(long userId) {
+        return tvSeasonsRepo.findAllByUsrId(userId);
+    }
+
     public TvSeason getById(long id) {
         return tvSeasonsRepo.findById(id).orElseThrow();
     }
 
-    public long getTvIdById(long id) {
-        return getById(id).getTvId();
-    }
 
     public void delete(TvSeason tvSeason) {
         tvSeasonsRepo.delete(tvSeason);
+    }
+
+    public void deleteById(long id) {
+        tvSeasonsRepo.deleteById(id);
     }
 }

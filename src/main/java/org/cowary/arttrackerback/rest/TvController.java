@@ -1,9 +1,13 @@
 package org.cowary.arttrackerback.rest;
 
+import jakarta.validation.Valid;
 import org.cowary.arttrackerback.dbCase.tv.TvCrud;
+import org.cowary.arttrackerback.dbCase.tv.TvSeasonsCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
+import org.cowary.arttrackerback.entity.api.mediaRs.TvRs;
 import org.cowary.arttrackerback.entity.tv.Tv;
+import org.cowary.arttrackerback.entity.tv.TvSeason;
 import org.cowary.arttrackerback.integration.api.kin.KinApi;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,66 +15,79 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/title")
-public class TvController implements TitleInterface<Tv>, FindController {
+public class TvController implements TitleInterface<TvSeason>, FindController<TvRs> {
 
+    @Autowired
+    private TvSeasonsCrud tvSeasonsCrud;
     @Autowired
     private TvCrud tvCrud;
 
     @Override
     @GetMapping("/tv")
-    public ResponseEntity<List<Tv>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<TvSeason>> getAllByUsrId(@RequestHeader long userId) {
         return ResponseEntity.ok(
-                tvCrud.getAllByUserId(userId)
+                tvSeasonsCrud.getAllByUserId(userId)
         );
     }
 
     @Override
     @GetMapping("/tv/{titleId}")
-    public ResponseEntity<Tv> getTitle(@PathVariable long titleId) {
+    public ResponseEntity<TvSeason> getTitle(@PathVariable long titleId) {
         return ResponseEntity.ok(
-                tvCrud.findById(titleId)
+                tvSeasonsCrud.getById(titleId)
         );
     }
 
     @Override
-    public ResponseEntity<Tv> postTitle(Tv title) {
-        tvCrud.save(title);
+    @PostMapping("/tv")
+    public ResponseEntity<TvSeason> postTitle(@Valid @RequestBody TvSeason title) {
+        tvSeasonsCrud.save(title);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(title);
     }
 
     @Override
-    public ResponseEntity<Tv> putTitle(Tv title) {
-        tvCrud.save(title);
+    @PutMapping("/tv")
+    public ResponseEntity<TvSeason> putTitle(@Valid @RequestBody TvSeason title) {
+        tvSeasonsCrud.save(title);
         return ResponseEntity.ok(title);
     }
 
     @Override
-    public ResponseEntity<String> deleteTitle(long id) {
-        tvCrud.deleteById(id);
+    @DeleteMapping("/tv")
+    public ResponseEntity<String> deleteTitle(@RequestHeader long id) {
+        tvSeasonsCrud.deleteById(id);
         return ResponseEntity.ok(String.format("ranobe №%s deleted", id));
     }
 
     @Override
     @GetMapping("/tv/find")
-    public ResponseEntity<FindMediaRs> find(@PathVariable String keyword) {
+    public ResponseEntity<FindMediaRs> find(@RequestParam String keyword) {
         var mediaModelList = KinApi.serialApi().searchByKeyword(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (KinResultModel kinResultModel: mediaModelList) {
-            var fins = new Finds(kinResultModel.getNameEn(), kinResultModel.getNameRu(), kinResultModel.getRating().toString(), 1, Integer.valueOf(kinResultModel.getYear()), kinResultModel.getFilmId());
+            var fins = new Finds(kinResultModel.getNameEn(), kinResultModel.getNameRu(), kinResultModel.getRating(), 1, Integer.valueOf(kinResultModel.getYear()), kinResultModel.getFilmId());
             findsList.add(fins);
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));
     }
 
     @Override
-    public ResponseEntity getByIntegrationID(int id) {
-        return null;
+    @GetMapping("/tv/getByServiceId")
+    public ResponseEntity<TvRs> getByIntegrationID(@RequestParam int id) {
+        var tvModel = KinApi.filmApi().getById(id);
+        var actualTv = tvCrud.findByOriginalTitleAndUserId(tvModel.getNameOriginal());
+        var tv = new Tv(tvModel.getNameOriginal(), tvModel.getNameRu(), LocalDate.of(1, 1, tvModel.getYear()), tvModel.getYear(), 1);
+        return ResponseEntity.ok(
+                new TvRs(Objects.requireNonNullElse(actualTv, tv), tvModel.getPosterUrl())
+        );
     }
 
 }
