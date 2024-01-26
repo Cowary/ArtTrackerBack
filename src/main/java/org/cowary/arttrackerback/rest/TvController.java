@@ -1,6 +1,8 @@
 package org.cowary.arttrackerback.rest;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.cowary.arttrackerback.dbCase.tv.TvCrud;
 import org.cowary.arttrackerback.dbCase.tv.TvSeasonsCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
@@ -15,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -69,7 +70,7 @@ public class TvController implements TitleInterface<TvSeason>, FindController<Tv
 
     @Override
     @GetMapping("/tv/find")
-    public ResponseEntity<FindMediaRs> find(@RequestParam String keyword) {
+    public ResponseEntity<FindMediaRs> find(@RequestParam @NotBlank String keyword) {
         var mediaModelList = KinApi.serialApi().searchByKeyword(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (KinResultModel kinResultModel: mediaModelList) {
@@ -81,10 +82,10 @@ public class TvController implements TitleInterface<TvSeason>, FindController<Tv
 
     @Override
     @GetMapping("/tv/getByServiceId")
-    public ResponseEntity<TvRs> getByIntegrationID(@RequestParam int id) {
+    public ResponseEntity<TvRs> getByIntegrationID(@RequestParam @NotNull int id) {
         var tvModel = KinApi.filmApi().getById(id);
         var actualTv = tvCrud.findByOriginalTitleAndUserId(tvModel.getNameOriginal());
-        var tv = new Tv(tvModel.getNameOriginal(), tvModel.getNameRu(), LocalDate.of(1, 1, tvModel.getYear()), tvModel.getYear(), 1);
+        var tv = new Tv(tvModel.getNameOriginal(), tvModel.getNameRu(), tvModel.getYear(), 1);
         return ResponseEntity.ok(
                 new TvRs(Objects.requireNonNullElse(actualTv, tv), tvModel.getPosterUrl())
         );

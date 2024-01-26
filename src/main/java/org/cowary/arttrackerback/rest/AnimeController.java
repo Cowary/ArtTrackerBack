@@ -1,6 +1,8 @@
 package org.cowary.arttrackerback.rest;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.cowary.arttrackerback.dbCase.anime.AnimeCrud;
 import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
@@ -67,7 +69,7 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
 
     @Override
     @GetMapping("/anime/find")
-    public ResponseEntity<FindMediaRs> find(@RequestParam String keyword) {
+    public ResponseEntity<FindMediaRs> find(@RequestParam @NotBlank String keyword) {
         var animeModelList = ShikimoriApi.animeApi().searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (AnimeModel animeModel : animeModelList) {
@@ -80,7 +82,7 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
 
     @Override
     @GetMapping("/anime/getByServiceId")
-    public ResponseEntity<AnimeRs> getByIntegrationID(@RequestParam int id) {
+    public ResponseEntity<AnimeRs> getByIntegrationID(@RequestParam @NotNull int id) {
         var animeModel = ShikimoriApi.animeApi().getById(id);
         var anime = new Anime(
                 animeModel.getName(), animeModel.getRussian(), animeModel.getEpisodes(), DateFormat.HTMLshort.parse(animeModel.getAired_on()), animeModel.getId(), animeModel.getDuration()

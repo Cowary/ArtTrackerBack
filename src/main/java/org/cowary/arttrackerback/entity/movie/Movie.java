@@ -1,6 +1,8 @@
 package org.cowary.arttrackerback.entity.movie;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,14 +21,19 @@ public class Movie extends Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
+    @NotBlank
     private String originalTitle;
+    @NotNull
+    @NotBlank
     private String title;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
-    private LocalDate releaseDate;
+    @NotNull
     private Integer releaseYear;
     private Integer duration;
+    @NotNull
+    @NotBlank
     private String status;
+    @NotNull
     private Integer score;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
@@ -35,14 +42,17 @@ public class Movie extends Media {
     @Temporal(TemporalType.DATE)
     private LocalDate lastUpd;
     private Long usrId;
+    private Integer integrationId;
+
     @Transient
     private String type = "Movie";
 
-    public Movie(String originalTitle, String title, int releaseYear, Integer duration) {
+    public Movie(String originalTitle, String title, int releaseYear, Integer duration, Integer integrationId) {
         this.originalTitle = originalTitle;
         this.title = title;
         this.releaseYear = releaseYear;
         this.duration = duration;
+        this.integrationId = integrationId;
     }
 
     public Movie() {
