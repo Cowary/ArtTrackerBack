@@ -9,5 +9,4 @@ public interface MangaRepo extends CrudRepository<Manga, Long> {
     List<Manga> findAll();
     List<Manga> findAllByUsrId(long usrId);
     List<Manga> findAllByStatus(String status);
-    Manga findByUsrId(long usrId);
 }

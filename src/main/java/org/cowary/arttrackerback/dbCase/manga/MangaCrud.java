@@ -28,8 +28,8 @@ public class MangaCrud implements MediaCrud<Manga> {
         return mangaRepo.findAllByUsrId(userId);
     }
 
-    public Manga findByUserId(long userId) {
-        return mangaRepo.findByUsrId(userId);
+    public Manga findById(long id) {
+        return mangaRepo.findById(id).orElseThrow();
     }
 
     public void save(Manga manga) {

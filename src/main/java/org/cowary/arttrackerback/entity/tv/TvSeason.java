@@ -23,6 +23,7 @@ public class TvSeason extends Media {
     private Long id;
     private String title;
     private Integer number;
+    private Integer releaseYear;
     private Integer episodes;
     private Integer episodesEnd;
     private String status;

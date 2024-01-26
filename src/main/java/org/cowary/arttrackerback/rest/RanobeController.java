@@ -1,6 +1,8 @@
 package org.cowary.arttrackerback.rest;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeCrud;
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeVolumeCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
@@ -71,7 +73,7 @@ public class RanobeController implements TitleInterface<RanobeVolume>, FindContr
 
     @Override
     @GetMapping("/ranobe/find")
-    public ResponseEntity<FindMediaRs> find(@RequestParam String keyword) {
+    public ResponseEntity<FindMediaRs> find(@RequestParam @NotBlank String keyword) {
         var mediaModelList = ShikimoriApi.ranobeApi().searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (RanobeModel ranobeModel : mediaModelList) {
@@ -84,7 +86,7 @@ public class RanobeController implements TitleInterface<RanobeVolume>, FindContr
 
     @Override
     @GetMapping("/ranobe/getByServiceId")
-    public ResponseEntity<RanobeRs> getByIntegrationID(@RequestParam int id) {
+    public ResponseEntity<RanobeRs> getByIntegrationID(@RequestParam @NotNull int id) {
         var actualRanobe = ranobeCrud.findByShikiIdAndUserId(id);
         var ranobeModel = ShikimoriApi.ranobeApi().getById(id);
         var ranobe = new Ranobe(
