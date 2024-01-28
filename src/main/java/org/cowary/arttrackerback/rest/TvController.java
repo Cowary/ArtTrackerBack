@@ -85,7 +85,7 @@ public class TvController implements TitleInterface<TvSeason>, FindController<Tv
     public ResponseEntity<TvRs> getByIntegrationID(@RequestParam @NotNull int id) {
         var tvModel = KinApi.filmApi().getById(id);
         var actualTv = tvCrud.findByOriginalTitleAndUserId(tvModel.getNameOriginal());
-        var tv = new Tv(tvModel.getNameOriginal(), tvModel.getNameRu(), tvModel.getYear(), 1);
+        var tv = new Tv(tvModel.getNameOriginal(), tvModel.getNameRu(), tvModel.getYear(), 1, id);
         return ResponseEntity.ok(
                 new TvRs(Objects.requireNonNullElse(actualTv, tv), tvModel.getPosterUrl())
         );
