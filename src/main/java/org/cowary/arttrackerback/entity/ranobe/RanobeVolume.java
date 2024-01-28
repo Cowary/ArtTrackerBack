@@ -32,7 +32,7 @@ public class RanobeVolume extends Media {
     @Temporal(TemporalType.DATE)
     private LocalDate lastUpd;
     @ManyToOne()
-    @Cascade({CascadeType.MERGE, CascadeType.PERSIST})
+    @Cascade({CascadeType.MERGE})
     @JoinColumn(name = "ranobe_id")
     private Ranobe ranobe;
     private Long usrId;
