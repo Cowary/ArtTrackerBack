@@ -18,6 +18,8 @@ public class TvSeasonsCrud implements MediaCrud<TvSeason> {
     @Autowired
     TvSeasonsRepo tvSeasonsRepo;
     @Autowired
+    TvCrud tvCrud;
+    @Autowired
     UserService userService;
 
     public void save(TvSeason tvSeason, Tv tv) {
@@ -33,6 +35,7 @@ public class TvSeasonsCrud implements MediaCrud<TvSeason> {
         tvSeason.getTv().setUsrId(userService.getIdCurrentUser());
         tvSeason.setUsrId(userService.getIdCurrentUser());
         tvSeason.setLastUpd(LocalDate.now());
+        tvCrud.save(tvSeason.getTv());
         tvSeasonsRepo.save(tvSeason);
     }
 

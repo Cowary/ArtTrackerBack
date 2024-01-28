@@ -28,6 +28,7 @@ public class BookCrud implements MediaCrud<Book> {
     }
 
     public void save(Book book) {
+        book.setReleaseYear(book.getReleaseDate().getYear());
         book.setLastUpd(LocalDate.now());
         book.setUsrId(userService.getIdCurrentUser());
         bookRepo.save(book);

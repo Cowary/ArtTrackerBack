@@ -23,7 +23,6 @@ public class TvSeason extends Media {
     private Long id;
     private String title;
     private Integer number;
-    private Integer releaseYear;
     private Integer episodes;
     private Integer episodesEnd;
     private String status;
@@ -35,7 +34,7 @@ public class TvSeason extends Media {
     @Temporal(TemporalType.DATE)
     private LocalDate lastUpd;
     @ManyToOne()
-    @Cascade({org.hibernate.annotations.CascadeType.MERGE, CascadeType.PERSIST})
+    @Cascade({CascadeType.MERGE})
     @JoinColumn(name = "tv_id")
     private Tv tv;
     private Long usrId;
