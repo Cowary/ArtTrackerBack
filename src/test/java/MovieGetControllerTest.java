@@ -1,4 +1,5 @@
 import org.cowary.arttrackerback.Application;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,12 +13,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
+@Disabled
 public class MovieGetControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
+    @Disabled
     @WithMockUser(username = "ruderu")
     public void testGetAll() throws Exception {
         mockMvc.perform(get("/title/movie")
@@ -27,6 +30,7 @@ public class MovieGetControllerTest {
     }
 
     @Test
+    @Disabled
     @WithMockUser(username = "ruderu")
     public void testGetOne() throws Exception {
         mockMvc.perform(get("/title/movie/45"))

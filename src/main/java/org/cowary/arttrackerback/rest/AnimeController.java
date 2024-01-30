@@ -73,8 +73,9 @@ public class AnimeController implements TitleInterface<Anime>, FindController<An
         var animeModelList = ShikimoriApi.animeApi().searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (AnimeModel animeModel : animeModelList) {
+            var releaseDate = animeModel.getAired_on() == null ? 0 : LocalDate.parse(animeModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()).getYear();
             var fins = new Finds(animeModel.getName(), animeModel.getRussian(), animeModel.getScore(), animeModel.getEpisodes(),
-                    LocalDate.parse(animeModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()).getYear(), animeModel.getId());
+                    releaseDate, animeModel.getId());
             findsList.add(fins);
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));

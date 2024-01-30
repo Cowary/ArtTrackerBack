@@ -74,7 +74,8 @@ public class TvController implements TitleInterface<TvSeason>, FindController<Tv
         var mediaModelList = KinApi.serialApi().searchByKeyword(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (KinResultModel kinResultModel: mediaModelList) {
-            var fins = new Finds(kinResultModel.getNameEn(), kinResultModel.getNameRu(), kinResultModel.getRating(), 1, Integer.valueOf(kinResultModel.getYear()), kinResultModel.getFilmId());
+            var releaseYear = kinResultModel.getYear().equals("null") ? 0 : Integer.parseInt(kinResultModel.getYear());
+            var fins = new Finds(kinResultModel.getNameEn(), kinResultModel.getNameRu(), kinResultModel.getRating(), 1, releaseYear, kinResultModel.getFilmId());
             findsList.add(fins);
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));
