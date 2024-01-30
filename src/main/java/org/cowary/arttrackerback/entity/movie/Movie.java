@@ -21,8 +21,6 @@ public class Movie extends Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    @NotBlank
     private String originalTitle;
     @NotNull
     @NotBlank
