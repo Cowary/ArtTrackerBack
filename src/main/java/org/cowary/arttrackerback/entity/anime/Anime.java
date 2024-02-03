@@ -2,9 +2,7 @@ package org.cowary.arttrackerback.entity.anime;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.cowary.arttrackerback.entity.Media;
 import org.cowary.arttrackerback.util.DateUtil;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,6 +14,8 @@ import java.time.LocalDate;
 @ToString
 
 @Entity(name = "anime")
+@Builder
+@AllArgsConstructor
 public class Anime extends Media {
 
     @Id
