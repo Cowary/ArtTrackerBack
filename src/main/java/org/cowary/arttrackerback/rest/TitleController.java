@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface TitleInterface<T> {
+public interface TitleController<T> {
 
     ResponseEntity<List<T>> getAllByUsrId(long userId);
 
@@ -15,4 +15,5 @@ public interface TitleInterface<T> {
     ResponseEntity<T> putTitle(T title);
 
     ResponseEntity<String> deleteTitle(long id);
+
 }

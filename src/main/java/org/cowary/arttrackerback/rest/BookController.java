@@ -1,6 +1,7 @@
 package org.cowary.arttrackerback.rest;
 
 import jakarta.validation.Valid;
+import lombok.Setter;
 import org.cowary.arttrackerback.dbCase.book.BookCrud;
 import org.cowary.arttrackerback.entity.book.Book;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class BookController implements TitleInterface<Book> {
+@Setter
+public class BookController implements TitleController<Book> {
 
     @Autowired
-    BookCrud bookCrud;
+    private BookCrud bookCrud;
 
     @Override
     @GetMapping("/book")

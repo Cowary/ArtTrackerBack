@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Setter;
 import org.cowary.arttrackerback.dbCase.anime.AnimeCrud;
 import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
@@ -22,10 +23,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class AnimeController implements TitleInterface<Anime>, FindController<AnimeRs> {
+@Setter
+public class AnimeController implements TitleController<Anime>, FindController<AnimeRs> {
 
     @Autowired
-    AnimeCrud animeCrud;
+    private AnimeCrud animeCrud;
 
     @Override
     @GetMapping("/anime")

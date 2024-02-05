@@ -1,6 +1,7 @@
 package org.cowary.arttrackerback.rest;
 
 import jakarta.validation.Valid;
+import lombok.Setter;
 import org.cowary.arttrackerback.dbCase.game.GameCrud;
 import org.cowary.arttrackerback.entity.game.Game;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/title")
-public class GameController implements TitleInterface<Game> {
+@Setter
+public class GameController implements TitleController<Game> {
 
     @Autowired
-    GameCrud gameCrud;
+    private GameCrud gameCrud;
 
     @Override
     @GetMapping("/game")
