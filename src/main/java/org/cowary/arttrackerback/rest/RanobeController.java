@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Setter;
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeCrud;
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeVolumeCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
@@ -25,12 +26,13 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/title")
-public class RanobeController implements TitleInterface<RanobeVolume>, FindController<RanobeRs> {
+@Setter
+public class RanobeController implements TitleController<RanobeVolume>, FindController<RanobeRs> {
 
     @Autowired
-    RanobeVolumeCrud ranobeVolumeCrud;
+    private RanobeVolumeCrud ranobeVolumeCrud;
     @Autowired
-    RanobeCrud ranobeCrud;
+    private RanobeCrud ranobeCrud;
 
     @Override
     @GetMapping("/ranobe")

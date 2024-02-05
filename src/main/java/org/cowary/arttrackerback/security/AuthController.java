@@ -15,28 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     @PostMapping("/signin")
     public ResponseEntity<AuthenticationResp> authenticateUser(@RequestBody AuthenticationReq loginRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
-
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//        List<String> roles = userDetails.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .toList();
-        System.out.println("userDetails");
-        System.out.println(userDetails);
-        System.out.println("!!!");
-        System.out.println(userDetails.getId());
         return ResponseEntity.ok(new AuthenticationResp(jwt, userDetails.getId()));
     }
 

@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Setter;
 import org.cowary.arttrackerback.dbCase.manga.MangaCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
@@ -23,7 +24,8 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/title")
-public class MangaController implements TitleInterface<Manga>, FindController<MangaRs> {
+@Setter
+public class MangaController implements TitleController<Manga>, FindController<MangaRs> {
 
     @Autowired
     private MangaCrud mangaCrud;
@@ -70,7 +72,6 @@ public class MangaController implements TitleInterface<Manga>, FindController<Ma
     @Override
     @GetMapping("/manga/find")
     public ResponseEntity<FindMediaRs> find(@RequestParam @NotBlank String keyword) {
-        System.out.println("keyword: " + keyword);
         Objects.requireNonNull(keyword);
         var mediaModelList = ShikimoriApi.mangaApi().searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
