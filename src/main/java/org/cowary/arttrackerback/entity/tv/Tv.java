@@ -1,9 +1,7 @@
 package org.cowary.arttrackerback.entity.tv;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.cowary.arttrackerback.entity.Media;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,8 +10,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-
 @Entity(name = "tv")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Tv extends Media {
 
     @Id
@@ -38,8 +38,5 @@ public class Tv extends Media {
         this.releaseYear = releaseYear;
         this.seasons = seasons;
         this.integrationId = integrationId;
-    }
-
-    public Tv() {
     }
 }

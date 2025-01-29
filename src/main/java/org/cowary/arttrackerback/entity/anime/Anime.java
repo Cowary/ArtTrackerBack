@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.cowary.arttrackerback.entity.Media;
 import org.cowary.arttrackerback.util.DateUtil;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -41,6 +42,7 @@ public class Anime extends Media {
     private Integer episodesEnd;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
+    @UpdateTimestamp
     private LocalDate lastUpd;
     private Long usrId;
     @Transient

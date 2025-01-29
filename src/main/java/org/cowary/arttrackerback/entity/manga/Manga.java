@@ -1,11 +1,10 @@
 package org.cowary.arttrackerback.entity.manga;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.cowary.arttrackerback.entity.Media;
 import org.cowary.arttrackerback.util.DateUtil;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -13,8 +12,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-
 @Entity(name = "manga")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Manga extends Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,7 @@ public class Manga extends Media {
     private Integer chaptersEnd;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
+    @UpdateTimestamp
     private LocalDate lastUpd;
     private Long usrId;
     @Transient
@@ -51,9 +53,5 @@ public class Manga extends Media {
         this.releaseYear = DateUtil.getYear(releaseDate);
         this.shikiId = shikiId;
         this.status = "Planned";
-    }
-
-    public Manga() {
-
     }
 }

@@ -1,12 +1,11 @@
 package org.cowary.arttrackerback.entity.ranobe;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.cowary.arttrackerback.entity.Media;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -14,8 +13,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-
 @Entity(name = "ranobe_volume")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RanobeVolume extends Media {
 
     @Id
@@ -30,6 +31,7 @@ public class RanobeVolume extends Media {
     private LocalDate endDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
+    @UpdateTimestamp
     private LocalDate lastUpd;
     @ManyToOne()
     @Cascade({CascadeType.MERGE})

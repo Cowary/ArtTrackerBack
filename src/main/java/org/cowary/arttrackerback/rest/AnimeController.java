@@ -11,6 +11,8 @@ import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.api.mediaRs.AnimeRs;
 import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
 import org.cowary.arttrackerback.integration.model.shiki.AnimeModel;
+import org.cowary.arttrackerback.rest.converter.AnimeDtoConverter;
+import org.cowary.arttrackerback.rest.dto.AnimeDto;
 import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,31 +26,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/title")
 @Setter
-public class AnimeController implements TitleController<Anime>, FindController<AnimeRs> {
+public class AnimeController implements TitleController<AnimeDto>, FindController<AnimeRs> {
 
     @Autowired
     private AnimeCrud animeCrud;
 
     @Override
     @GetMapping("/anime")
-    public ResponseEntity<List<Anime>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<AnimeDto>> getAllByUsrId(@RequestHeader long userId) {
+        var animeList = animeCrud.getAllByUserId(userId);
+        var animeDtoList = animeList.stream().map(AnimeDtoConverter::convert).toList();
         return ResponseEntity.ok(
-                animeCrud.getAllByUserId(userId)
+                animeDtoList
         );
     }
 
     @Override
     @GetMapping("/anime/{titleId}")
-    public ResponseEntity<Anime> getTitle(@PathVariable long titleId) {
+    public ResponseEntity<AnimeDto> getTitle(@PathVariable long titleId) {
+        var anime = animeCrud.getById(titleId);
+        var animeDto = AnimeDtoConverter.convert(anime);
         return ResponseEntity.ok(
-                animeCrud.getById(titleId)
+                animeDto
         );
     }
 
     @Override
     @PostMapping("/anime")
-    public ResponseEntity<Anime> postTitle(@Valid @RequestBody Anime title) {
-        animeCrud.save(title);
+    public ResponseEntity<AnimeDto> postTitle(@Valid @RequestBody AnimeDto title) {
+        var anime = AnimeDtoConverter.convert(title);
+        animeCrud.save(anime);
+        title.setId(anime.getId());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(title);
@@ -56,8 +64,9 @@ public class AnimeController implements TitleController<Anime>, FindController<A
 
     @Override
     @PutMapping("/anime")
-    public ResponseEntity<Anime> putTitle(@Valid @RequestBody Anime title) {
-        animeCrud.save(title);
+    public ResponseEntity<AnimeDto> putTitle(@Valid @RequestBody AnimeDto title) {
+        var anime = AnimeDtoConverter.convert(title);
+        animeCrud.save(anime);
         return ResponseEntity.ok(title);
     }
 
@@ -86,12 +95,14 @@ public class AnimeController implements TitleController<Anime>, FindController<A
     @Override
     @GetMapping("/anime/getByServiceId")
     public ResponseEntity<AnimeRs> getByIntegrationID(@RequestParam @NotNull int id) {
+        //TODO: переделать
         var animeModel = ShikimoriApi.animeApi().getById(id);
         var anime = new Anime(
                 animeModel.getName(), animeModel.getRussian(), animeModel.getEpisodes(), DateFormat.HTMLshort.parse(animeModel.getAired_on()), animeModel.getId(), animeModel.getDuration()
         );
+        var animeDto = AnimeDtoConverter.convert(anime);
         return ResponseEntity.ok(
-                new AnimeRs(anime, animeModel.getImage().getOriginal())
+                new AnimeRs(animeDto, animeModel.getImage().getOriginal())
         );
     }
 }

@@ -11,6 +11,8 @@ import org.cowary.arttrackerback.entity.api.mediaRs.MangaRs;
 import org.cowary.arttrackerback.entity.manga.Manga;
 import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
 import org.cowary.arttrackerback.integration.model.shiki.MangaModel;
+import org.cowary.arttrackerback.rest.converter.MangaDtoConverter;
+import org.cowary.arttrackerback.rest.dto.MangaDto;
 import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,31 +27,37 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/title")
 @Setter
-public class MangaController implements TitleController<Manga>, FindController<MangaRs> {
+public class MangaController implements TitleController<MangaDto>, FindController<MangaRs> {
 
     @Autowired
     private MangaCrud mangaCrud;
 
     @Override
     @GetMapping("/manga")
-    public ResponseEntity<List<Manga>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<MangaDto>> getAllByUsrId(@RequestHeader long userId) {
+        var mangaList = mangaCrud.findAllByUserId(userId);
+        var mangaDtoList = mangaList.stream().map(MangaDtoConverter::convert).toList();
         return ResponseEntity.ok(
-                mangaCrud.findAllByUserId(userId)
+                mangaDtoList
         );
     }
 
     @Override
     @GetMapping("/manga/{titleId}")
-    public ResponseEntity<Manga> getTitle(@PathVariable long titleId) {
+    public ResponseEntity<MangaDto> getTitle(@PathVariable long titleId) {
+        var manga = mangaCrud.findById(titleId);
+        var mangaDto = MangaDtoConverter.convert(manga);
         return ResponseEntity.ok(
-                mangaCrud.findById(titleId)
+                mangaDto
         );
     }
 
     @Override
     @PostMapping("/manga")
-    public ResponseEntity<Manga> postTitle(@RequestBody @Valid Manga title) {
-        mangaCrud.save(title);
+    public ResponseEntity<MangaDto> postTitle(@RequestBody @Valid MangaDto title) {
+        var manga = MangaDtoConverter.convert(title);
+        mangaCrud.save(manga);
+        title.setId(manga.getId());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(title);
@@ -57,8 +65,9 @@ public class MangaController implements TitleController<Manga>, FindController<M
 
     @Override
     @PutMapping("/manga")
-    public ResponseEntity<Manga> putTitle(@RequestBody @Valid Manga title) {
-        mangaCrud.save(title);
+    public ResponseEntity<MangaDto> putTitle(@RequestBody @Valid MangaDto title) {
+        var manga = MangaDtoConverter.convert(title);
+        mangaCrud.save(manga);
         return ResponseEntity.ok(title);
     }
 
@@ -91,8 +100,10 @@ public class MangaController implements TitleController<Manga>, FindController<M
         var manga = new Manga(
                 mangaModel.getName(), mangaModel.getRussian(), mangaModel.getVolumes(), mangaModel.getChapters(), DateFormat.HTMLshort.parse(mangaModel.getAired_on()), mangaModel.getId()
         );
+        //TODO: переделать
+        var mangaDto = MangaDtoConverter.convert(manga);
         return ResponseEntity.ok(
-                new MangaRs(manga, mangaModel.getImage().getOriginal())
+                new MangaRs(mangaDto, mangaModel.getImage().getOriginal())
         );
     }
 }

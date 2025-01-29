@@ -1,9 +1,7 @@
 package org.cowary.arttrackerback.entity.tv;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.cowary.arttrackerback.entity.Media;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -14,8 +12,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-
 @Entity(name = "tv_seasons")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TvSeason extends Media {
 
     @Id

@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.Setter;
 import org.cowary.arttrackerback.dbCase.game.GameCrud;
 import org.cowary.arttrackerback.entity.game.Game;
+import org.cowary.arttrackerback.rest.converter.GameConverter;
+import org.cowary.arttrackerback.rest.dto.GameDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,39 +16,46 @@ import java.util.List;
 @RestController
 @RequestMapping("/title")
 @Setter
-public class GameController implements TitleController<Game> {
+public class GameController implements TitleController<GameDto> {
 
     @Autowired
     private GameCrud gameCrud;
 
     @Override
     @GetMapping("/game")
-    public ResponseEntity<List<Game>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<GameDto>> getAllByUsrId(@RequestHeader long userId) {
+        var gameList = gameCrud.getAllByUserId(userId);
+        var gameDtoList = gameList.stream().map(GameConverter::convert).toList();
         return ResponseEntity.ok(
-                gameCrud.getAllByUserId(userId)
+                gameDtoList
         );
     }
 
     @Override
     @GetMapping("/game/{titleId}")
-    public ResponseEntity<Game> getTitle(@PathVariable long titleId) {
+    public ResponseEntity<GameDto> getTitle(@PathVariable long titleId) {
+        var game = gameCrud.findById(titleId);
+        var gameDto = GameConverter.convert(game);
         return ResponseEntity.ok(
-                gameCrud.findById(titleId)
+                gameDto
         );
     }
 
     @Override
     @PostMapping("/game")
-    public ResponseEntity<Game> postTitle(@Valid @RequestBody Game title) {
-        gameCrud.save(title);
+    public ResponseEntity<GameDto> postTitle(@Valid @RequestBody GameDto title) {
+        var game = GameConverter.convert(title);
+        gameCrud.save(game);
+        title.setId(game.getId());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(title);
     }
 
     @Override
     @PutMapping("/game")
-    public ResponseEntity<Game> putTitle(@Valid @RequestBody Game title) {
-        gameCrud.save(title);
+    public ResponseEntity<GameDto> putTitle(@Valid @RequestBody GameDto title) {
+        var game = GameConverter.convert(title);
+        gameCrud.save(game);
         return ResponseEntity.ok(title);
     }
 

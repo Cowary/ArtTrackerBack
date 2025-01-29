@@ -1,10 +1,9 @@
 package org.cowary.arttrackerback.entity.game;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.cowary.arttrackerback.entity.Media;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -12,8 +11,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-
 @Entity(name = "game")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Game extends Media {
 
     @Id
@@ -31,6 +32,7 @@ public class Game extends Media {
     private String status;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
+    @UpdateTimestamp
     private LocalDate lastUpd;
     private Long usrId;
     @Transient

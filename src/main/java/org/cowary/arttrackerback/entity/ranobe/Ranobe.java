@@ -1,9 +1,7 @@
 package org.cowary.arttrackerback.entity.ranobe;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.cowary.arttrackerback.entity.Media;
 import org.cowary.arttrackerback.util.DateUtil;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,8 +11,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-
 @Entity(name = "ranobe")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ranobe extends Media {
 
     @Id
@@ -45,9 +45,5 @@ public class Ranobe extends Media {
         this.releaseDate = releaseDate;
         this.releaseYear = DateUtil.getYear(releaseDate);
         this.shikiId = shikiId;
-    }
-
-    public Ranobe() {
-
     }
 }
