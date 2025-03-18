@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.cowary</groupId>
-    <artifactId>ArtTrackerBack</artifactId>
+    <artifactId>art-tracker-back</artifactId>
     <version>1.0.18</version>
     <packaging>jar</packaging>
 
